@@ -20,7 +20,7 @@ public class TrafficLight {
      * Public static method for creating a new instance
      * depending of passing to method parameter
      *
-     * @param type
+     * @param type is passing to method traffic light type
      * @return AbstractTL
      * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
      * @see by.bsuir.iba.enumerations.TrafficLightType

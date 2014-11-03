@@ -20,7 +20,7 @@ public interface AbstractTL {
     /**
      * Method fot setting Traffic Light color
      *
-     * @param tlc
+     * @param tlc is passing to method light color
      */
     public void setLight(TrafficLightColor tlc);
 
