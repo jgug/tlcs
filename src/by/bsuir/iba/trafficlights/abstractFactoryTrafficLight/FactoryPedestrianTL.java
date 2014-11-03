@@ -4,8 +4,13 @@ import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
 import by.bsuir.iba.trafficlights.abstractTraffiLight.PedestrianTL;
 
 /**
- * Created by Pavel on 03.11.14.
+ * Class {@code FactoryPedestrianTL} implements {@code AbstractFactoryTL}
+ * and uses for creating pedestrian traffic light
+ *
+ * @author Pavel Vashkel
+ * @see by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL
  */
+
 public class FactoryPedestrianTL implements AbstractFactoryTL {
 
     @Override

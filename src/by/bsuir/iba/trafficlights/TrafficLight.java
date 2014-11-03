@@ -8,10 +8,23 @@ import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.FactoryRoadTL;
 import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
 
 /**
- * Created by Pavel on 03.11.14.
+ * Class {@code TrafficLight} uses for creating
+ * traffic light's instance depending of passing
+ * to {@code getInstance} method parameter
+ * @author Pavel Vashkel
  */
+
 public class TrafficLight {
 
+    /**
+     * Public static method for creating a new instance
+     * depending of passing to method parameter
+     *
+     * @param type
+     * @return AbstractTL
+     * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
+     * @see by.bsuir.iba.enumerations.TrafficLightType
+     */
     public static AbstractTL getInstance(TrafficLightType type) {
         AbstractFactoryTL factory;
         switch (type) {
