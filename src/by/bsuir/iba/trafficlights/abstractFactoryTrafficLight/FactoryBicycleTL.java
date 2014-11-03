@@ -1,7 +1,7 @@
-package by.bsuir.iba.traffilights.abstractFactoryTrafficLight;
+package by.bsuir.iba.trafficlights.abstractFactoryTrafficLight;
 
-import by.bsuir.iba.traffilights.abstractTraffiLight.AbstractTL;
-import by.bsuir.iba.traffilights.abstractTraffiLight.BicycleTL;
+import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
+import by.bsuir.iba.trafficlights.abstractTraffiLight.BicycleTL;
 
 /**
  * Created by Pavel on 03.11.14.

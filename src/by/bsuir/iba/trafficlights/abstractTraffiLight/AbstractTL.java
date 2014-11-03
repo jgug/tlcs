@@ -1,4 +1,4 @@
-package by.bsuir.iba.traffilights.abstractTraffiLight;
+package by.bsuir.iba.trafficlights.abstractTraffiLight;
 
 import by.bsuir.iba.enumerations.TrafficLightColor;
 

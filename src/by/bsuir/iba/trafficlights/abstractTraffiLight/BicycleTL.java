@@ -1,4 +1,4 @@
-package by.bsuir.iba.traffilights.abstractTraffiLight;
+package by.bsuir.iba.trafficlights.abstractTraffiLight;
 
 import by.bsuir.iba.enumerations.TrafficLightColor;
 import by.bsuir.iba.enumerations.TrafficLightType;
@@ -6,12 +6,9 @@ import by.bsuir.iba.enumerations.TrafficLightType;
 /**
  * Created by Pavel on 03.11.14.
  */
-public class PedestrianTL implements AbstractTL {
+public class BicycleTL implements AbstractTL {
     private TrafficLightColor color;
-    private TrafficLightType type = TrafficLightType.PEDESTRIAN;
-
-    public PedestrianTL() {
-    }
+    private TrafficLightType type = TrafficLightType.BICYCLE;
 
     @Override
     public TrafficLightColor getLight() {
@@ -20,7 +17,7 @@ public class PedestrianTL implements AbstractTL {
 
     @Override
     public void setLight(TrafficLightColor tlc) {
-        tlc = color;
+        color = tlc;
     }
 
     @Override

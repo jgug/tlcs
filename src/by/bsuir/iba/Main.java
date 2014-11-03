@@ -1,9 +1,9 @@
 package by.bsuir.iba;
 
-import by.bsuir.iba.traffilights.TrafficLight;
-import by.bsuir.iba.traffilights.abstractFactoryTrafficLight.FactoryBicycleTL;
-import by.bsuir.iba.traffilights.abstractFactoryTrafficLight.FactoryPedestrianTL;
-import by.bsuir.iba.traffilights.abstractFactoryTrafficLight.FactoryRoadTL;
+import by.bsuir.iba.trafficlights.TrafficLight;
+import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.FactoryBicycleTL;
+import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.FactoryPedestrianTL;
+import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.FactoryRoadTL;
 
 public class Main {
 

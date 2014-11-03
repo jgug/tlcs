@@ -1,8 +1,8 @@
-package by.bsuir.iba.traffilights;
+package by.bsuir.iba.trafficlights;
 
 import by.bsuir.iba.enumerations.TrafficLightColor;
-import by.bsuir.iba.traffilights.abstractFactoryTrafficLight.AbstractFactoryTL;
-import by.bsuir.iba.traffilights.abstractTraffiLight.AbstractTL;
+import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL;
+import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
 
 /**
  * Created by Pavel on 03.11.14.
