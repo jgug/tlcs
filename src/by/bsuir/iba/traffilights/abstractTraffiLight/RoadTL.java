@@ -1,12 +1,14 @@
 package by.bsuir.iba.traffilights.abstractTraffiLight;
 
 import by.bsuir.iba.enumerations.TrafficLightColor;
+import by.bsuir.iba.enumerations.TrafficLightType;
 
 /**
  * Created by Pavel on 03.11.14.
  */
 public class RoadTL implements AbstractTL {
     private TrafficLightColor color;
+    private TrafficLightType type = TrafficLightType.ROAD;
 
     @Override
     public TrafficLightColor getLight() {
