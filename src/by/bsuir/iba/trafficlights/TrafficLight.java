@@ -7,6 +7,7 @@ import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
 /**
  * Created by Pavel on 03.11.14.
  */
+ // Немного не то, что надо
 public class TrafficLight implements AbstractTL {
     AbstractTL trafficLight;
 
