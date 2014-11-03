@@ -1,34 +1,34 @@
 package by.bsuir.iba.trafficlights;
 
-import by.bsuir.iba.enumerations.TrafficLightColor;
+import by.bsuir.iba.enumerations.TrafficLightType;
 import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL;
+import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.FactoryBicycleTL;
+import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.FactoryPedestrianTL;
+import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.FactoryRoadTL;
 import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
 
 /**
  * Created by Pavel on 03.11.14.
  */
- // Немного не то, что надо
-public class TrafficLight implements AbstractTL {
-    AbstractTL trafficLight;
+public class TrafficLight {
 
-    public TrafficLight(AbstractFactoryTL factory) {
-
-        trafficLight = factory.createTrafficLight();
-
+    public static AbstractTL getInstance(TrafficLightType type) {
+        AbstractFactoryTL factory;
+        switch (type) {
+            case ROAD: {
+                factory = new FactoryRoadTL();
+                return factory.createTrafficLight();
+            }
+            case PEDESTRIAN: {
+                factory = new FactoryPedestrianTL();
+                return factory.createTrafficLight();
+            }
+            case BICYCLE: {
+                factory = new FactoryBicycleTL();
+                return factory.createTrafficLight();
+            }
+        }
+        return null;
     }
 
-    @Override
-    public TrafficLightColor getLight() {
-        return trafficLight.getLight();
-    }
-
-    @Override
-    public void setLight(TrafficLightColor tlc) {
-        trafficLight.setLight(tlc);
-    }
-
-    @Override
-    public String test() {
-        return trafficLight.test();
-    }
 }
