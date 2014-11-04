@@ -13,11 +13,8 @@ import by.bsuir.iba.enumerations.TrafficLightType;
  */
 
 public class PedestrianTL implements AbstractTL {
+    private static final TrafficLightType type = TrafficLightType.PEDESTRIAN;
     private TrafficLightColor color;
-    private TrafficLightType type = TrafficLightType.PEDESTRIAN;
-
-    public PedestrianTL() {
-    }
 
     @Override
     public TrafficLightColor getLight() {
@@ -25,8 +22,13 @@ public class PedestrianTL implements AbstractTL {
     }
 
     @Override
-    public void setLight(TrafficLightColor tlc) {
-        tlc = color;
+    public void setLight(TrafficLightColor color) {
+        this.color = color;
+    }
+
+    @Override
+    public TrafficLightType getType() {
+        return type;
     }
 
     @Override

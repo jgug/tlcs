@@ -1,6 +1,7 @@
 package by.bsuir.iba.trafficlights.abstractTraffiLight;
 
 import by.bsuir.iba.enumerations.TrafficLightColor;
+import by.bsuir.iba.enumerations.TrafficLightType;
 
 /**
  * AbstractTrafficLight interface
@@ -23,6 +24,13 @@ public interface AbstractTL {
      * @param tlc is passing to method light color
      */
     public void setLight(TrafficLightColor tlc);
+
+    /**
+     * Method for getting Traffic Light type
+     *
+     * @return {@code TrafficLightType}
+     */
+    public TrafficLightType getType();
 
     /**
      * Test method

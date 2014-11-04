@@ -7,11 +7,11 @@ import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
  * Class {@code TrafficLight} uses for creating
  * traffic light's instance depending of passing
  * to {@code getInstance} method parameter
+ *
  * @author Pavel Vashkel
  */
 
 public class TrafficLight {
-
 
     /**
      * Public static method for creating a new instance
