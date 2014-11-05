@@ -38,7 +38,7 @@ public class ConfigurationLoader {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line;
             while ((line = br.readLine()) != null) {
-                if (!line.startsWith("#")) {
+                if (!line.startsWith("#") && !line.isEmpty()) {
                     lines.add(line);
                 }
             }
