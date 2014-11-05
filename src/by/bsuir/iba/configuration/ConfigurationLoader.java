@@ -49,6 +49,15 @@ public class ConfigurationLoader {
         }
     }
 
+    /**
+     * Method extracts digits from string
+     *
+     * @param str is a string of which digits
+     *            must be extracted
+     * @return {@code String} value of digits containing
+     * in a input string
+     * @see java.lang.String
+     */
     public String getDigits(String str) {
         StringBuilder sb = new StringBuilder(str.length());
         for (int i = 0; i < str.length(); i++) {
@@ -60,6 +69,12 @@ public class ConfigurationLoader {
         return sb.toString();
     }
 
+    /**
+     * Method parse ArrayList of Strings from
+     * config file and sets appropriate values
+     * to fields of Configuration class object
+     * @see by.bsuir.iba.configuration.Configuration
+     */
     public void parse() {
         configuration.setRoads(Integer.parseInt((getDigits(lines.get(0)))));
         configuration.setRightTurns(getDigits(lines.get(1)));
@@ -70,18 +85,18 @@ public class ConfigurationLoader {
         lines = lines.subList(6, lines.size());
         int size = lines.size();
         int[][] arr = new int[size][size];
-        // Code below makes something unexpected... 0_o
         for (int i = 0; i < size; i++) {
-            char[] charray = lines.get(i).toCharArray();
+            String[] array = lines.get(i).split("");
             for (int j = 0; j < size; j++) {
-                arr[i][j] = charray[j];
+                arr[i][j] = Integer.parseInt(array[j]);
             }
         }
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                System.out.println(j + " ");
-            }
-            System.out.println();
-        }
+//        for (int i = 0; i < size; i++) {
+//            for (int j = 0; j < size; j++) {
+//                System.out.print(arr[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
+        configuration.setConflictMatrix(arr);
     }
 }
