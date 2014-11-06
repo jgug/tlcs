@@ -15,7 +15,7 @@ public class Main {
 //        System.out.println(trafficLight.test());
 
         ConfigurationLoader cl = new ConfigurationLoader();
-        cl.setPath("D:\\6__WORK\\Java\\TLCS\\resources\\configurations\\TLCS.cfg");
+        cl.setPath("D:\\6__WORK\\Java\\TLCS\\resources\\configurations\\TLCS_example.cfg");
         cl.load();
         cl.parse();
 

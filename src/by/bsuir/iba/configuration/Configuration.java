@@ -9,11 +9,11 @@ package by.bsuir.iba.configuration;
 
 public class Configuration {
     private int roads;
-    private String rightTurns;
-    private String leftTurns;
-    private String straight;
-    private String outputLines;
-    private String pedestrianCrossings;
+    private int[] rightTurns;
+    private int[] leftTurns;
+    private int[] straight;
+    private int[] outputLines;
+    private int[] pedestrianCrossings;
     private int[][] conflictMatrix;
 
     public int getRoads() {
@@ -24,43 +24,43 @@ public class Configuration {
         this.roads = roads;
     }
 
-    public String getRightTurns() {
+    public int[] getRightTurns() {
         return rightTurns;
     }
 
-    public void setRightTurns(String rightTurns) {
+    public void setRightTurns(int[] rightTurns) {
         this.rightTurns = rightTurns;
     }
 
-    public String getLeftTurns() {
+    public int[] getLeftTurns() {
         return leftTurns;
     }
 
-    public void setLeftTurns(String leftTurns) {
+    public void setLeftTurns(int[] leftTurns) {
         this.leftTurns = leftTurns;
     }
 
-    public String getStraight() {
+    public int[] getStraight() {
         return straight;
     }
 
-    public void setStraight(String straight) {
+    public void setStraight(int[] straight) {
         this.straight = straight;
     }
 
-    public String getOutputLines() {
+    public int[] getOutputLines() {
         return outputLines;
     }
 
-    public void setOutputLines(String outputLines) {
+    public void setOutputLines(int[] outputLines) {
         this.outputLines = outputLines;
     }
 
-    public String getPedestrianCrossings() {
+    public int[] getPedestrianCrossings() {
         return pedestrianCrossings;
     }
 
-    public void setPedestrianCrossings(String pedestrianCrossings) {
+    public void setPedestrianCrossings(int[] pedestrianCrossings) {
         this.pedestrianCrossings = pedestrianCrossings;
     }
 
