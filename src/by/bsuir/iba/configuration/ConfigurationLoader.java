@@ -19,7 +19,6 @@ public class ConfigurationLoader {
     private Configuration configuration = new Configuration();
     private Path path;
     private List<String> lines = new ArrayList<>();
-    private int roads;
 
     /**
      * Method sets path to config file
@@ -103,8 +102,7 @@ public class ConfigurationLoader {
      * @see by.bsuir.iba.configuration.Configuration
      */
     public void parse() {
-        roads = Integer.parseInt((getDigit(lines.get(0))));
-        configuration.setRoads(roads);
+        configuration.setRoads(Integer.parseInt((getDigit(lines.get(0)))));
         configuration.setRightTurns(getDigits(lines.get(1)));
         configuration.setLeftTurns(getDigits(lines.get(2)));
         configuration.setStraight(getDigits(lines.get(3)));
