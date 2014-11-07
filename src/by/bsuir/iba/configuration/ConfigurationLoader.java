@@ -22,6 +22,7 @@ public class ConfigurationLoader {
 
     /**
      * Method setting path to configuration file
+     *
      * @param path is a string with path to the file
      */
     public void setPath(String path) {
@@ -64,6 +65,7 @@ public class ConfigurationLoader {
 
     /**
      * Method convert String into array of ints by splitint with comma(",")
+     *
      * @param str is a String which should be converted to array of ints
      * @return array of ints
      */
@@ -78,6 +80,7 @@ public class ConfigurationLoader {
 
     /**
      * Method convert String into 2D array of ints by splitting with space(" ")
+     *
      * @param str is a String which should be converted to 2D array of ints
      * @return 2D array of ints
      */
