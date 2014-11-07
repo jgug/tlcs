@@ -1,12 +1,10 @@
 package by.bsuir.iba.configuration;
 
 /**
- * This class store configuration of traffic light
- * control system (TLCS)
+ * This class represent configuration of traffic light control system (TLCS)
  *
  * @author Pavel Vashkel
  */
-
 public class Configuration {
     private int roads;
     private int[] rightTurns;

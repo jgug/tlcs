@@ -10,7 +10,6 @@ import by.bsuir.iba.trafficlights.abstractTraffiLight.BicycleTL;
  * @author Pavel Vashkel
  * @see by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL
  */
-
 public class FactoryBicycleTL implements AbstractFactoryTL {
 
     @Override

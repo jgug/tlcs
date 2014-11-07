@@ -8,7 +8,6 @@ import by.bsuir.iba.enumerations.TrafficLightType;
  *
  * @author Pavel Vashkel
  */
-
 public interface AbstractTL {
 
     /**

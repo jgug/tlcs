@@ -11,7 +11,6 @@ import by.bsuir.iba.enumerations.TrafficLightType;
  * @author Pavel Vashkel
  * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
  */
-
 public class PedestrianTL implements AbstractTL {
     private static final TrafficLightType type = TrafficLightType.PEDESTRIAN;
     private TrafficLightColor color;

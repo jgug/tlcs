@@ -7,7 +7,6 @@ import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
  *
  * @author Pavel Vashkel
  */
-
 public interface AbstractFactoryTL {
 
     /**

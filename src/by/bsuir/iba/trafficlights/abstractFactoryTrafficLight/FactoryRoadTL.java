@@ -10,7 +10,6 @@ import by.bsuir.iba.trafficlights.abstractTraffiLight.RoadTL;
  * @author Pavel Vashkel
  * @see by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL
  */
-
 public class FactoryRoadTL implements AbstractFactoryTL {
 
     @Override

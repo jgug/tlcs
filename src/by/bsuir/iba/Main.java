@@ -14,10 +14,9 @@ public class Main {
 //        trafficLight = TrafficLight.getInstance(new FactoryBicycleTL());
 //        System.out.println(trafficLight.test());
 
-        ConfigurationLoader cl = new ConfigurationLoader();
-        cl.setPath("D:\\6__WORK\\Java\\TLCS\\resources\\configurations\\TLCS_example.cfg");
-        cl.load();
-        cl.parse();
+        ConfigurationLoader configurationLoader = new ConfigurationLoader();
+        configurationLoader.setPath("D:\\6__WORK\\Java\\TLCS\\resources\\configurations\\TLCS.properties");
+        configurationLoader.load();
 
     }
 }

@@ -13,7 +13,6 @@ package by.bsuir.iba.enumerations;
  * @author Pavel Vashkel
  * @see java.lang.Enum
  */
-
 public enum TrafficLightType {
     ROAD, PEDESTRIAN, BICYCLE
 }
