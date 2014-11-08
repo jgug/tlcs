@@ -18,7 +18,7 @@ import java.util.Properties;
 public class ConfigurationLoaderNew {
     private Properties properties = new Properties();
     private Path path;
-    private Configuration configuration = new Configuration();
+    private Configuration configuration = Configuration.getInstance();
 
     /**
      * Method setting path to configuration file

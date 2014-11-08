@@ -4,14 +4,14 @@ import by.bsuir.iba.enumerations.TrafficLightColor;
 import by.bsuir.iba.enumerations.TrafficLightType;
 
 /**
- * class {@code PedestrianTL} implements AbstractTL
+ * class {@code PedestrianTL} extends AbstractTL
  * Have private fields {@code color} and {@code type}
  * to specify traffic light's type and current color
  *
  * @author Pavel Vashkel
  * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
  */
-public class PedestrianTL implements AbstractTL {
+public class PedestrianTL extends AbstractTL {
     private static final TrafficLightType type = TrafficLightType.PEDESTRIAN;
     private TrafficLightColor color;
 

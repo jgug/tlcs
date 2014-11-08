@@ -17,7 +17,7 @@ import java.util.List;
 
 @Deprecated
 public class ConfigurationLoader {
-    private Configuration configuration = new Configuration();
+    private Configuration configuration = Configuration.getInstance();
     private Path path;
     private List<String> lines = new ArrayList<>();
     private int roads;

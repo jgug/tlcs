@@ -4,14 +4,14 @@ import by.bsuir.iba.enumerations.TrafficLightColor;
 import by.bsuir.iba.enumerations.TrafficLightType;
 
 /**
- * class {@code RoadTL} implements AbstractTL
+ * class {@code RoadTL} extends AbstractTL
  * Have private fields {@code color} and {@code type}
  * to specify traffic light's type and current color
  *
  * @author Pavel Vashkel
  * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
  */
-public class RoadTL implements AbstractTL {
+public class RoadTL extends AbstractTL {
     private static final TrafficLightType type = TrafficLightType.ROAD;
     private TrafficLightColor color;
 

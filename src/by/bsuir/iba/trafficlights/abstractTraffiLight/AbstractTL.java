@@ -4,32 +4,40 @@ import by.bsuir.iba.enumerations.TrafficLightColor;
 import by.bsuir.iba.enumerations.TrafficLightType;
 
 /**
- * AbstractTrafficLight interface
+ * AbstractTrafficLight abstract class
  *
  * @author Pavel Vashkel
  */
-public interface AbstractTL {
+public abstract class AbstractTL {
+    private TrafficLightColor light;
+    private TrafficLightType type;
 
     /**
      * Method for getting Traffic Light color
      *
      * @return {@code TrafficLightColor}
      */
-    public TrafficLightColor getLight();
+    public TrafficLightColor getLight() {
+        return light;
+    }
 
     /**
      * Method fot setting Traffic Light color
      *
-     * @param tlc is passing to method light color
+     * @param light is passing to method light color
      */
-    public void setLight(TrafficLightColor tlc);
+    public void setLight(TrafficLightColor light) {
+        this.light = light;
+    }
 
     /**
      * Method for getting Traffic Light type
      *
      * @return {@code TrafficLightType}
      */
-    public TrafficLightType getType();
+    public TrafficLightType getType() {
+        return type;
+    }
 
     /**
      * Test method
@@ -37,6 +45,6 @@ public interface AbstractTL {
      * @return {@code String}
      * @see java.lang.String
      */
-    public String test();
+    public abstract String test();
 
 }
