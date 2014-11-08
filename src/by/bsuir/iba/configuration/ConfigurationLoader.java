@@ -8,14 +8,14 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
- * Class {@code ConfigurationLoaderNew} is responsible for loading configuration of a system
+ * Class {@code ConfigurationLoader} is responsible for loading configuration of a system
  * from {@code *.properties} file and fill corresponding fields of {@code Configuration}
  * class object
  *
  * @author Pavel Vashkel
  * @see Configuration
  */
-public class ConfigurationLoaderNew {
+public class ConfigurationLoader {
     private Properties properties = new Properties();
     private Path path;
     private Configuration configuration = Configuration.getInstance();
