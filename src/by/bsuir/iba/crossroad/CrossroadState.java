@@ -7,12 +7,19 @@ import java.util.List;
 /**
  * Class represent current state of a crossroad based on a conflict
  * matrix from a configuration file
+ *
+ * @author Pavel Vashkel
+ * @see java.util.ArrayList
+ * @see java.util.Collections
  */
 public class CrossroadState {
     private List<int[]> statesList = new ArrayList<>();
     private int currentPosition;
     private int listSize;
 
+    /**
+     * Instantiates a new Crossroad state.
+     */
     public CrossroadState() {
         currentPosition = 0;
     }
@@ -95,6 +102,9 @@ public class CrossroadState {
         return arr;
     }
 
+    /**
+     * Test void.
+     */
     public void test() {
         for (int[] a : statesList) {
             for (int i : a) {
@@ -104,6 +114,11 @@ public class CrossroadState {
         }
     }
 
+    /**
+     * Test prev next.
+     *
+     * @param arr the arr
+     */
     public void testPrevNext(int[] arr) {
         for (int i : arr) {
             System.out.print(i + " ");

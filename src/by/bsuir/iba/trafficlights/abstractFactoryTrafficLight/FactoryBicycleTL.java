@@ -12,6 +12,7 @@ import by.bsuir.iba.trafficlights.abstractTraffiLight.BicycleTL;
  */
 public class FactoryBicycleTL implements AbstractFactoryTL {
 
+
     @Override
     public AbstractTL createTrafficLight() {
         return new BicycleTL();
