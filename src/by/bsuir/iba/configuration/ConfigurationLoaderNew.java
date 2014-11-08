@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
- * Class {@code ConfigurationLoader} is responsible for loading configuration of a system
+ * Class {@code ConfigurationLoaderNew} is responsible for loading configuration of a system
  * from {@code *.properties} file and fill corresponding fields of {@code Configuration}
  * class object
  *
