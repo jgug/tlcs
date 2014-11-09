@@ -124,7 +124,7 @@ public class Configuration {
      *
      * @return int straight turns count
      */
-    public int getStraightTurnsCount() {
+    public int getStraightCount() {
         int sum = 0;
         for (int i : straight) {
             sum += i;
