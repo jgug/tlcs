@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Ruslan on 07.11.14.
@@ -157,5 +160,20 @@ public class MainFrame extends JFrame {
             x = _x;
             y = _y;
         }
+    }
+
+    public void generateTransport() {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                for (int key : crossroadPanel.trafficLineHashMap.keySet()) {
+                    TrafficLine tmpLine = crossroadPanel.trafficLineHashMap.get(key);
+                    if (tmpLine.hasTrafficLight) {
+                        tmpLine.comingCars();
+                    }
+                }
+            }
+        }, 4, 4, TimeUnit.SECONDS);
     }
 }

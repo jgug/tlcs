@@ -55,7 +55,7 @@ public class CrossroadPanel extends JPanel {
                         tmpX = tmpLine.x;
                         tmpY = tmpLine.y;
                 }
-                tmpLine.displayQueue.setBounds(tmpX, tmpY, 20, 25);
+                tmpLine.displayQueue.setBounds(tmpX, tmpY, 40, 25);
             }
 
 

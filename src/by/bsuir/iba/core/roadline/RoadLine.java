@@ -74,6 +74,14 @@ public class RoadLine {
     }
 
     /**
+     *
+     * @return random number(0..3) coming cars
+     */
+    public int generateRandomNumOfCars() {
+        return  (int) (Math.random() * 4);
+    }
+
+    /**
      * Returns {@code int} value number of cars in the RoadLine
      *
      * @return {@code int}
@@ -90,4 +98,6 @@ public class RoadLine {
     public void setCars(int cars) {
         this.cars = cars;
     }
+
+
 }

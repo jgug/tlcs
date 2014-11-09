@@ -1,12 +1,14 @@
 package by.bsuir.iba.gui;
 
+import by.bsuir.iba.core.roadline.RoadLine;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by Ruslan
  */
-public class TrafficLine {
+public class TrafficLine extends RoadLine {
 
     boolean hasTrafficLight;
     int lineId, numQueueCar, x, y;
@@ -64,6 +66,11 @@ public class TrafficLine {
 
     public void lightYellow(){
         alight = yellowLight;
+    }
+
+    public void comingCars(){
+        numQueueCar+= generateRandomNumOfCars();
+        displayQueue.setText(Integer.toString(numQueueCar));
     }
 
 }

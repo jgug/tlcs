@@ -1,12 +1,12 @@
 package by.bsuir.iba;
 
+import by.bsuir.iba.gui.CrossroadCommander;
 import by.bsuir.iba.gui.MainFrame;
 
 public class Main {
 
     public static void main(String[] args) {
-        MainFrame frame = new MainFrame();
-        frame.setConfigs();
-        frame.initComponents();
+        CrossroadCommander commander = new CrossroadCommander();
+        commander.startFun();
     }
 }
