@@ -15,30 +15,28 @@ import java.util.HashMap;
  */
 public class MainFrame extends JFrame {
     protected JFrame frame;
-    protected CrossroadPanel crossroadPanel;
+    protected Configuration conf;
+    protected CrossroadPanel crossroadPanel = new CrossroadPanel();
     protected HashMap<Integer, TrafficLine> trafficLineHashMap = new HashMap<>();
-    protected HashMap<Integer, Coordinates> startPoints = new HashMap<>();
-    File directory = new File("D:\\");
+    protected HashMap<Integer, Coordinates> startPoints;
+    protected File directory = new File("D:\\");
+    protected String _path = "";
+    final ConfigurationLoader configurationLoader = new ConfigurationLoader();
 
-    public void initComponents() {
+    public void setConfigs() {
         int lineIndex;
         boolean isBrick;
-        setPoints();
-        final ConfigurationLoader configurationLoader = new
-                ConfigurationLoader();
-//        configurationLoader.setPath
-// ("D:\\Java\\TLCS\\resources\\configurations\\TLCS.properties");
-        configurationLoader.setPath("D:\\6__WORK\\Java\\TLCS\\resources" +
-                "\\configurations\\TLCS.properties");
+
+        startPoints = new HashMap<>();
+        if (_path.equals("")) {
+            configurationLoader.setPath("D:\\Java\\TLCS\\resources\\configurations\\TLCS.properties");
+        } else {
+            configurationLoader.setPath(_path);
+        }
         configurationLoader.load();
-        Configuration conf = configurationLoader.getConfiguration();
+        conf = configurationLoader.getConfiguration();
 
-
-        frame = new JFrame("Traffic Line Control System");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-
-        crossroadPanel = new CrossroadPanel();
+        setPoints();
 
         for (int i = 1; i <= conf.getRoads(); i++) {
             lineIndex = i * 10;
@@ -91,26 +89,17 @@ public class MainFrame extends JFrame {
                 }
             }
         }
+    }
+
+    public void initComponents() {
+        frame = new JFrame("Traffic Line Control System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
         frame.add(BorderLayout.WEST, crossroadPanel);
 
         JButton getConfigsButton = new JButton("Get config");
-        getConfigsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Конфигнаш!");
-                JFileChooser chooser = new JFileChooser();
+        getConfigsButton.addActionListener(new getConfigActionListener());
 
-                chooser.setCurrentDirectory(directory);
-                int result = chooser.showOpenDialog(MainFrame.this);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    directory = chooser.getCurrentDirectory();
-                    System.out.println(chooser.getSelectedFile().toString());
-                }
-                if (result == JFileChooser.CANCEL_OPTION) {
-                    System.out.println("Canceled");
-                }
-            }
-        });
         frame.add(getConfigsButton);
         getConfigsButton.setBounds(630, 20, 100, 25);
 
@@ -147,11 +136,28 @@ public class MainFrame extends JFrame {
 
     public class lightButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
-            System.out.println("Мы в хоккее");
             crossroadPanel.trafficLineArrayList.get(0).lightGreen();
             frame.repaint();
 
         }
     }
 
+    public class getConfigActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent ev) {
+            JFileChooser fileOpen = new JFileChooser();
+            fileOpen.setCurrentDirectory(directory);
+            int result = fileOpen.showOpenDialog(MainFrame.this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                directory = fileOpen.getCurrentDirectory();
+                _path = fileOpen.getSelectedFile().getPath();
+                crossroadPanel.trafficLineArrayList.clear();
+                setConfigs();
+                frame.repaint();
+            }
+            if (result == JFileChooser.CANCEL_OPTION) {
+                System.out.println("Canceled");
+            }
+
+        }
+    }
 }
