@@ -17,8 +17,7 @@ public class MainFrame extends JFrame {
     protected JFrame frame;
     protected Configuration conf;
     protected CrossroadPanel crossroadPanel = new CrossroadPanel();
-    protected HashMap<Integer, TrafficLine> trafficLineHashMap = new HashMap<>();
-    protected HashMap<Integer, Coordinates> startPoints;
+    protected HashMap<Integer, Coordinates> startPoints = new HashMap<>();
     protected File directory = new File("D:\\");
     protected String _path = "";
     final ConfigurationLoader configurationLoader = new ConfigurationLoader();
@@ -27,7 +26,6 @@ public class MainFrame extends JFrame {
         int lineIndex;
         boolean isBrick;
 
-        startPoints = new HashMap<>();
         if (_path.equals("")) {
             configurationLoader.setPath("D:\\Java\\TLCS\\resources\\configurations\\TLCS.properties");
         } else {
@@ -124,19 +122,9 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public class Coordinates {
-        int x;
-        int y;
-
-        public Coordinates(int _x, int _y) {
-            x = _x;
-            y = _y;
-        }
-    }
-
     public class lightButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
-            crossroadPanel.trafficLineArrayList.get(0).lightGreen();
+            crossroadPanel.trafficLineHashMap.get(11).lightGreen();
             frame.repaint();
 
         }
@@ -150,7 +138,7 @@ public class MainFrame extends JFrame {
             if (result == JFileChooser.APPROVE_OPTION) {
                 directory = fileOpen.getCurrentDirectory();
                 _path = fileOpen.getSelectedFile().getPath();
-                crossroadPanel.trafficLineArrayList.clear();
+                crossroadPanel.trafficLineHashMap.clear();
                 setConfigs();
                 frame.repaint();
             }
@@ -158,6 +146,16 @@ public class MainFrame extends JFrame {
                 System.out.println("Canceled");
             }
 
+        }
+    }
+
+    public class Coordinates {
+        int x;
+        int y;
+
+        public Coordinates(int _x, int _y) {
+            x = _x;
+            y = _y;
         }
     }
 }

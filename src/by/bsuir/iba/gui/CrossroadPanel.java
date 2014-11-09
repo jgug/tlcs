@@ -2,13 +2,15 @@ package by.bsuir.iba.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Ruslan
  */
 public class CrossroadPanel extends JPanel {
-    ArrayList<TrafficLine> trafficLineArrayList = new ArrayList<>();
+    HashMap<Integer, TrafficLine> trafficLineHashMap = new HashMap<>();
     Image image;
 
     public CrossroadPanel() {
@@ -25,9 +27,8 @@ public class CrossroadPanel extends JPanel {
         if (image != null) {
             g.drawImage(image, 0, 0, 555, 555, this);
         }
-
-        for (int i = 0; i < trafficLineArrayList.size(); i++) {
-            TrafficLine tmpLine = trafficLineArrayList.get(i);
+        for (int key : trafficLineHashMap.keySet()) {
+            TrafficLine tmpLine = trafficLineHashMap.get(key);
             g.drawImage(tmpLine.alight, tmpLine.x, tmpLine.y, 30, 30, this);
 
             if (tmpLine.hasTrafficLight) {
@@ -62,6 +63,6 @@ public class CrossroadPanel extends JPanel {
     }
 
     public void addTrafficLine(TrafficLine t) {
-        trafficLineArrayList.add(t);
+        trafficLineHashMap.put(t.lineId, t);
     }
 }
