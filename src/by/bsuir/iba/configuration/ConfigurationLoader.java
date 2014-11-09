@@ -97,4 +97,8 @@ public class ConfigurationLoader {
         return arrInt;
     }
 
+    public Configuration getConfiguration(){
+        return configuration;
+    }
+
 }

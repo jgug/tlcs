@@ -1,6 +1,7 @@
 package by.bsuir.iba;
 
 import by.bsuir.iba.configuration.ConfigurationLoader;
+import by.bsuir.iba.gui.MainFrame;
 
 public class Main {
 
@@ -17,10 +18,10 @@ public class Main {
 
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
         configurationLoader.setPath
-                ("D:\\6__WORK\\Java\\TLCS\\resources\\configurations\\TLCS" +
+                ("D:\\Java\\TLCS\\resources\\configurations\\TLCS" +
                         ".properties");
         configurationLoader.load();
-
+        new MainFrame().initComponents();
 //        CrossroadState crossroadState = new CrossroadState();
 //        crossroadState.setStatesList(Configuration.getInstance()
 // .getConflictMatrix());
