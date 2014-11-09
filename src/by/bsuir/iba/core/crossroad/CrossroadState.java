@@ -54,27 +54,21 @@ public class CrossroadState {
         int[] pedestrian = configuration.getPedestrianCrossings();
 
         for (int i = 1; i <= count; i++) {
-            System.out.println("Road " + i);
-            System.out.println("----------");
             int second = 1;
             for (int k = 1; k <= right[i - 1]; k++) {
-//                System.out.println(getIndex(i, second));
                 stateMap.put(getIndex(i, second), arr[second - 1]);
                 second++;
             }
             for (int k = 1; k <= straight[i - 1]; k++) {
-//                System.out.println(getIndex(i, second));
                 stateMap.put(getIndex(i, second), arr[second - 1]);
                 second++;
             }
             for (int k = 1; k <= left[i - 1]; k++) {
-//                System.out.println(getIndex(i, second));
                 stateMap.put(getIndex(i, second), arr[second - 1]);
                 second++;
             }
             if (configuration.getPedestrianCount() != 0) {
                 for (int k = 1; k <= pedestrian[i - 1]; k++) {
-//                    System.out.println(getIndex(i, second));
                     stateMap.put(getIndex(i, second), arr[second - 1]);
                     second++;
                 }

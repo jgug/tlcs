@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class Crossroad {
     ArrayList<AbstractTL> trafficLightsList;
     ArrayList<RoadLine> roadLinesList;
+    CrossroadState crossroadState = new CrossroadState();
 
     /**
      * Instantiates a new Crossroad.
@@ -48,5 +49,14 @@ public class Crossroad {
             trafficLightsList.add(TrafficLight.getInstance(new
                     FactoryPedestrianTL()));
         }
+    }
+
+    /**
+     * Gets crossroad state.
+     *
+     * @return the crossroad state
+     */
+    public CrossroadState getCrossroadState() {
+        return crossroadState;
     }
 }
