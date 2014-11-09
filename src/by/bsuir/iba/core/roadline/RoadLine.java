@@ -1,4 +1,4 @@
-package by.bsuir.iba.roadline;
+package by.bsuir.iba.core.roadline;
 
 /**
  * Class represents single road line with its own id and number of cars

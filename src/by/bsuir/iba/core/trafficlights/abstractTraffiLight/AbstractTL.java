@@ -1,7 +1,7 @@
-package by.bsuir.iba.trafficlights.abstractTraffiLight;
+package by.bsuir.iba.core.trafficlights.abstractTraffiLight;
 
-import by.bsuir.iba.enumerations.TrafficLightColor;
-import by.bsuir.iba.enumerations.TrafficLightType;
+import by.bsuir.iba.core.enumerations.TrafficLightColor;
+import by.bsuir.iba.core.enumerations.TrafficLightType;
 
 /**
  * AbstractTrafficLight abstract class

@@ -1,4 +1,4 @@
-package by.bsuir.iba.configuration;
+package by.bsuir.iba.core.configuration;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,12 +8,16 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
- * Class {@code ConfigurationLoader} is responsible for loading configuration of a system
- * from {@code *.properties} file and fill corresponding fields of {@code Configuration}
+ * Class {@code ConfigurationLoader} is responsible for loading configuration
+ * of a system
+ * from {@code *.properties} file and fill corresponding fields of {@code
+ * Configuration}
  * class object
  *
  * @author Pavel Vashkel
- * @see Configuration
+ * @see by.bsuir.iba.core.configuration.Configuration
+ * @see java.nio.file.Path
+ * @see java.util.Properties
  */
 public class ConfigurationLoader {
     private Properties properties = new Properties();
@@ -57,6 +61,7 @@ public class ConfigurationLoader {
             configuration.setConflictMatrix(
                     getInt2DArray(properties.getProperty("CONFLICT_MATRIX"))
             );
+            configuration.setLines();
             inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,7 +102,13 @@ public class ConfigurationLoader {
         return arrInt;
     }
 
-    public Configuration getConfiguration(){
+
+    /**
+     * Get configuration.
+     *
+     * @return the configuration
+     */
+    public Configuration getConfiguration() {
         return configuration;
     }
 

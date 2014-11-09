@@ -1,4 +1,4 @@
-package by.bsuir.iba.configuration;
+package by.bsuir.iba.core.configuration;
 
 /**
  * This class represents configuration of a system which gets from
@@ -49,7 +49,7 @@ public class Configuration {
      * using in out of class and for realization Singleton pattern.
      */
     private Configuration() {
-        setLines();
+
     }
 
     /**

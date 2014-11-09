@@ -1,14 +1,15 @@
-package by.bsuir.iba.trafficlights.abstractFactoryTrafficLight;
+package by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight;
 
-import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
-import by.bsuir.iba.trafficlights.abstractTraffiLight.PedestrianTL;
+import by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL;
+import by.bsuir.iba.core.trafficlights.abstractTraffiLight.PedestrianTL;
 
 /**
  * Class {@code FactoryPedestrianTL} implements {@code AbstractFactoryTL}
  * and uses for creating pedestrian traffic light
  *
  * @author Pavel Vashkel
- * @see by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL
+ * @see by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight
+ * .AbstractFactoryTL
  */
 public class FactoryPedestrianTL implements AbstractFactoryTL {
 

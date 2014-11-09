@@ -1,4 +1,4 @@
-package by.bsuir.iba.enumerations;
+package by.bsuir.iba.core.enumerations;
 
 /**
  * The enum {@code TrafficLightColor} store possible

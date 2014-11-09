@@ -1,30 +1,35 @@
 package by.bsuir.iba.gui;
 
-import by.bsuir.iba.configuration.Configuration;
-import by.bsuir.iba.configuration.ConfigurationLoader;
+import by.bsuir.iba.core.configuration.Configuration;
+import by.bsuir.iba.core.configuration.ConfigurationLoader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.HashMap;
 
 /**
  * Created by Ruslan on 07.11.14.
  */
-public class MainFrame {
+public class MainFrame extends JFrame {
     protected JFrame frame;
     protected CrossroadPanel crossroadPanel;
     protected HashMap<Integer, TrafficLine> trafficLineHashMap = new HashMap<>();
     protected HashMap<Integer, Coordinates> startPoints = new HashMap<>();
+    File directory = new File("D:\\");
 
     public void initComponents() {
         int lineIndex;
         boolean isBrick;
         setPoints();
-        ConfigurationLoader configurationLoader = new ConfigurationLoader();
-        configurationLoader.setPath("D:\\Java\\TLCS\\resources\\configurations\\TLCS.properties");
+        final ConfigurationLoader configurationLoader = new
+                ConfigurationLoader();
+//        configurationLoader.setPath
+// ("D:\\Java\\TLCS\\resources\\configurations\\TLCS.properties");
+        configurationLoader.setPath("D:\\6__WORK\\Java\\TLCS\\resources" +
+                "\\configurations\\TLCS.properties");
         configurationLoader.load();
         Configuration conf = configurationLoader.getConfiguration();
 
@@ -89,6 +94,23 @@ public class MainFrame {
         frame.add(BorderLayout.WEST, crossroadPanel);
 
         JButton getConfigsButton = new JButton("Get config");
+        getConfigsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Конфигнаш!");
+                JFileChooser chooser = new JFileChooser();
+
+                chooser.setCurrentDirectory(directory);
+                int result = chooser.showOpenDialog(MainFrame.this);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    directory = chooser.getCurrentDirectory();
+                    System.out.println(chooser.getSelectedFile().toString());
+                }
+                if (result == JFileChooser.CANCEL_OPTION) {
+                    System.out.println("Canceled");
+                }
+            }
+        });
         frame.add(getConfigsButton);
         getConfigsButton.setBounds(630, 20, 100, 25);
 
@@ -131,4 +153,5 @@ public class MainFrame {
 
         }
     }
+
 }

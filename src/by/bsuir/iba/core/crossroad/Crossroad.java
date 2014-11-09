@@ -1,12 +1,13 @@
-package by.bsuir.iba.crossroad;
+package by.bsuir.iba.core.crossroad;
 
-import by.bsuir.iba.configuration.Configuration;
-import by.bsuir.iba.roadline.RoadLine;
-import by.bsuir.iba.trafficlights.TrafficLight;
-import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight
+import by.bsuir.iba.core.configuration.Configuration;
+import by.bsuir.iba.core.roadline.RoadLine;
+import by.bsuir.iba.core.trafficlights.TrafficLight;
+import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight
         .FactoryPedestrianTL;
-import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.FactoryRoadTL;
-import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
+import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight
+        .FactoryRoadTL;
+import by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL;
 
 import java.util.ArrayList;
 
@@ -18,10 +19,10 @@ import java.util.ArrayList;
  * crossroad bases on configuration file.
  *
  * @author Pavel Vashkel
- * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
- * @see by.bsuir.iba.trafficlights.TrafficLight
- * @see by.bsuir.iba.roadline.RoadLine
- * @see by.bsuir.iba.configuration.Configuration
+ * @see by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL
+ * @see by.bsuir.iba.core.trafficlights.TrafficLight
+ * @see by.bsuir.iba.core.roadline.RoadLine
+ * @see by.bsuir.iba.core.configuration.Configuration
  * @see java.util.ArrayList
  */
 public class Crossroad {

@@ -1,7 +1,8 @@
-package by.bsuir.iba.trafficlights;
+package by.bsuir.iba.core.trafficlights;
 
-import by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL;
-import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
+import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight
+        .AbstractFactoryTL;
+import by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL;
 
 /**
  * Class {@code TrafficLight} uses for creating
@@ -18,8 +19,8 @@ public class TrafficLight {
      *
      * @param factory is passing to method traffic light factory
      * @return AbstractTL
-     * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
-     * @see by.bsuir.iba.enumerations.TrafficLightType
+     * @see by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL
+     * @see by.bsuir.iba.core.enumerations.TrafficLightType
      */
     public static AbstractTL getInstance(AbstractFactoryTL factory) {
         return factory.createTrafficLight();

@@ -1,14 +1,15 @@
-package by.bsuir.iba.trafficlights.abstractFactoryTrafficLight;
+package by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight;
 
-import by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL;
-import by.bsuir.iba.trafficlights.abstractTraffiLight.BicycleTL;
+import by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL;
+import by.bsuir.iba.core.trafficlights.abstractTraffiLight.BicycleTL;
 
 /**
  * Class {@code FactoryBicycleTL} implements {@code AbstractFactoryTL}
  * and uses for creating bicycle traffic light
  *
  * @author Pavel Vashkel
- * @see by.bsuir.iba.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL
+ * @see by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight
+ * .AbstractFactoryTL
  */
 public class FactoryBicycleTL implements AbstractFactoryTL {
 

@@ -1,7 +1,7 @@
-package by.bsuir.iba.trafficlights.abstractTraffiLight;
+package by.bsuir.iba.core.trafficlights.abstractTraffiLight;
 
-import by.bsuir.iba.enumerations.TrafficLightColor;
-import by.bsuir.iba.enumerations.TrafficLightType;
+import by.bsuir.iba.core.enumerations.TrafficLightColor;
+import by.bsuir.iba.core.enumerations.TrafficLightType;
 
 /**
  * class {@code PedestrianTL} extends AbstractTL
@@ -9,7 +9,7 @@ import by.bsuir.iba.enumerations.TrafficLightType;
  * to specify traffic light's type and current color
  *
  * @author Pavel Vashkel
- * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
+ * @see by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL
  */
 public class PedestrianTL extends AbstractTL {
     private static final TrafficLightType type = TrafficLightType.PEDESTRIAN;

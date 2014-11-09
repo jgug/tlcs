@@ -1,4 +1,4 @@
-package by.bsuir.iba.crossroad;
+package by.bsuir.iba.core.crossroad;
 
 import java.util.ArrayList;
 import java.util.Collections;

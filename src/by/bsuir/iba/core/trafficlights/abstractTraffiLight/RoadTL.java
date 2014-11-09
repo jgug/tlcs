@@ -1,18 +1,18 @@
-package by.bsuir.iba.trafficlights.abstractTraffiLight;
+package by.bsuir.iba.core.trafficlights.abstractTraffiLight;
 
-import by.bsuir.iba.enumerations.TrafficLightColor;
-import by.bsuir.iba.enumerations.TrafficLightType;
+import by.bsuir.iba.core.enumerations.TrafficLightColor;
+import by.bsuir.iba.core.enumerations.TrafficLightType;
 
 /**
- * class {@code BicycleTL} extends AbstractTL
+ * class {@code RoadTL} extends AbstractTL
  * Have private fields {@code color} and {@code type}
  * to specify traffic light's type and current color
  *
  * @author Pavel Vashkel
- * @see by.bsuir.iba.trafficlights.abstractTraffiLight.AbstractTL
+ * @see by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL
  */
-public class BicycleTL extends AbstractTL {
-    private static final TrafficLightType type = TrafficLightType.BICYCLE;
+public class RoadTL extends AbstractTL {
+    private static final TrafficLightType type = TrafficLightType.ROAD;
     private TrafficLightColor color;
 
     @Override
