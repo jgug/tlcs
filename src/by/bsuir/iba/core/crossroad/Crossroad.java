@@ -39,8 +39,7 @@ public class Crossroad {
 
         for (int i = 0; i < lines; i++) {
             roadLinesList.add(new RoadLine(i));
-            trafficLightsList.add(TrafficLight.getInstance(new FactoryRoadTL
-                    ()));
+            trafficLightsList.add(TrafficLight.getInstance(new FactoryRoadTL()));
         }
 
         for (int i = 0; i < pedestrian; i++) {

@@ -24,6 +24,9 @@ public class MainFrame extends JFrame {
     protected File directory = new File("D:\\");
     protected String _path = "";
     final ConfigurationLoader configurationLoader = new ConfigurationLoader();
+    protected ScheduledExecutorService executor;
+    protected JButton startGenerateTransportButton;
+    protected JButton stopGenerateTransportButton;
 
     public void setConfigs() {
         int lineIndex;
@@ -109,6 +112,17 @@ public class MainFrame extends JFrame {
         frame.add(lightButton);
         lightButton.setBounds(580, 150, 200, 25);
 
+        startGenerateTransportButton = new JButton("start transport");
+        startGenerateTransportButton.addActionListener(new startTransportListener());
+        frame.add(startGenerateTransportButton);
+        startGenerateTransportButton.setEnabled(false);
+        startGenerateTransportButton.setBounds(600, 400, 150, 25);
+
+        stopGenerateTransportButton = new JButton("stop transport");
+        stopGenerateTransportButton.addActionListener(new stopTransportListener());
+        frame.add(stopGenerateTransportButton);
+        stopGenerateTransportButton.setBounds(600, 450, 150, 25);
+
         frame.setSize(800, 585);
         frame.setResizable(false);
         frame.getContentPane().add(crossroadPanel);
@@ -129,7 +143,6 @@ public class MainFrame extends JFrame {
         public void actionPerformed(ActionEvent ev) {
             crossroadPanel.trafficLineHashMap.get(11).lightGreen();
             frame.repaint();
-
         }
     }
 
@@ -142,6 +155,8 @@ public class MainFrame extends JFrame {
                 directory = fileOpen.getCurrentDirectory();
                 _path = fileOpen.getSelectedFile().getPath();
                 crossroadPanel.trafficLineHashMap.clear();
+                crossroadPanel.removeAll();
+                frame.repaint();
                 setConfigs();
                 frame.repaint();
             }
@@ -150,6 +165,20 @@ public class MainFrame extends JFrame {
             }
 
         }
+    }
+
+    public class stopTransportListener implements ActionListener{
+        public void actionPerformed(ActionEvent ev) {
+            stopTransportGeneration();
+        }
+
+    }
+
+    public class startTransportListener implements ActionListener{
+        public void actionPerformed(ActionEvent ev) {
+            generateTransport();
+        }
+
     }
 
     public class Coordinates {
@@ -163,7 +192,7 @@ public class MainFrame extends JFrame {
     }
 
     public void generateTransport() {
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
@@ -175,5 +204,13 @@ public class MainFrame extends JFrame {
                 }
             }
         }, 4, 4, TimeUnit.SECONDS);
+        startGenerateTransportButton.setEnabled(false);
+        stopGenerateTransportButton.setEnabled(true);
+    }
+
+    public void stopTransportGeneration(){
+        executor.shutdown();
+        startGenerateTransportButton.setEnabled(true);
+        stopGenerateTransportButton.setEnabled(false);
     }
 }
