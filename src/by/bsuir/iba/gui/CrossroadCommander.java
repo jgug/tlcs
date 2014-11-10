@@ -12,7 +12,7 @@ public class CrossroadCommander {
         frame.setConfigs();
         frame.initComponents();
         frame.generateTransport();
-//        Crossroad crossroad = new Crossroad(Configuration.getInstance());
-//        crossroad.getCrossroadState();
+        Crossroad crossroad = new Crossroad(Configuration.getInstance());
+        crossroad.getCrossroadState();
     }
 }

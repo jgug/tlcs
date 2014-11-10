@@ -139,8 +139,10 @@ public class Configuration {
      */
     public int getPedestrianCount() {
         int sum = 0;
-        for (int i : pedestrianCrossings) {
-            sum += i;
+        if (pedestrianCrossings != null) {
+            for (int i : pedestrianCrossings) {
+                sum += i;
+            }
         }
         return sum;
     }

@@ -3,10 +3,8 @@ package by.bsuir.iba.core.crossroad;
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.roadline.RoadLine;
 import by.bsuir.iba.core.trafficlights.TrafficLight;
-import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight
-        .FactoryPedestrianTL;
-import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight
-        .FactoryRoadTL;
+import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight.FactoryPedestrianTL;
+import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight.FactoryRoadTL;
 import by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL;
 
 import java.util.ArrayList;
