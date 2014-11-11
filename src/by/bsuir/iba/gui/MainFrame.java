@@ -198,10 +198,8 @@ public class MainFrame extends JFrame {
                 count = map1.keySet().size();
                 readMap(map1);
                 textFieldTime.setText("8");
-                int size = map1.keySet().size();
-                for (int i = 0; i < size; i++) {
-                    comboboxOrder.addItem(i);
-                }
+
+                updateComboBox();
             }
         });
 
@@ -317,30 +315,27 @@ public class MainFrame extends JFrame {
     }
 
     public void updateComboBox() {
-        comboboxOrder.removeAllItems();
-        int size = map1.keySet().size();
-        for (int i = 0; i < size; i++) {
+        for (Integer i : map1.keySet()) {
             comboboxOrder.addItem(i);
         }
     }
 
     public void nextItem() {
+        System.out.println("LALAL = " + map1.keySet().size());
         if (globalIndex < map1.keySet().size()) {
             if (isChecked) {
                 map2.put(item, map1.get(globalIndex));
             }
             map1.remove(globalIndex);
             globalIndex++;
+            System.out.println("GLOBAL INDEX = " + globalIndex);
         } else {
             System.out.println("зэтс инаф");
         }
+        updateComboBox();
     }
 
     public void readMap(Map<Integer, String> map) {
-//        int size = map.keySet().size();
-//        for (int i = 0; i < size; i++) {
-//            System.out.println(map.get(i));
-//        }
         for (Integer i : map.keySet()) {
             System.out.println(map.get(i));
         }
