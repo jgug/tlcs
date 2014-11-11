@@ -309,9 +309,11 @@ public class MainFrame extends JFrame {
 //=====================================================================================================================
 
     public void fillMap() {
-        for (int i = 0; i < 10; i++) {
-            map1.put(i, "Item" + i);
-        }
+        map1.put(0, "one");
+        map1.put(1, "two");
+        map1.put(2, "three");
+        map1.put(3, "four");
+        map1.put(4, "five");
     }
 
     public void updateComboBox() {
@@ -329,12 +331,17 @@ public class MainFrame extends JFrame {
             }
             map1.remove(globalIndex);
             globalIndex++;
+        } else {
+            System.out.println("зэтс инаф");
         }
     }
 
     public void readMap(Map<Integer, String> map) {
-        int size = map.keySet().size();
-        for (int i = 0; i < size; i++) {
+//        int size = map.keySet().size();
+//        for (int i = 0; i < size; i++) {
+//            System.out.println(map.get(i));
+//        }
+        for (Integer i : map.keySet()) {
             System.out.println(map.get(i));
         }
     }
