@@ -1,5 +1,6 @@
 package by.bsuir.iba.gui;
 
+import by.bsuir.iba.core.State;
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.configuration.ConfigurationLoader;
 
@@ -8,7 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.HashMap;
+import java.util.*;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -17,17 +19,33 @@ import java.util.concurrent.TimeUnit;
  * Created by Ruslan on 07.11.14.
  */
 public class MainFrame extends JFrame {
+    final ConfigurationLoader configurationLoader = new ConfigurationLoader();
     protected JFrame frame;
     protected Configuration conf;
     protected CrossroadPanel crossroadPanel = new CrossroadPanel();
     protected HashMap<Integer, Coordinates> startPoints = new HashMap<>();
     protected File directory = new File("D:\\");
     protected String _path = "";
-    final ConfigurationLoader configurationLoader = new ConfigurationLoader();
     protected ScheduledExecutorService executor;
-    protected JButton startGenerateTransportButton;
-    protected JButton stopGenerateTransportButton;
+    protected JButton buttonGetConfigFile;
+    protected JButton buttonLightGreen;
+    protected JButton buttonTransportStart;
+    protected JButton buttonTransportStop;
+    protected JButton buttonConfigurate;
+    protected JButton buttonNextState;
+    protected JTextField textFieldTime;
+    protected JCheckBox checkBoxIsUse;
+    protected JComboBox<Integer> comboboxOrder;
 
+    private boolean isChecked;
+
+    private List<String> list = new ArrayList<>();
+    private Set<State> stateHashSet = new HashSet<>();
+
+
+    /**
+     * Sets configs.
+     */
     public void setConfigs() {
         int lineIndex;
         boolean isBrick;
@@ -95,33 +113,87 @@ public class MainFrame extends JFrame {
         }
     }
 
+    /**
+     * Init components.
+     */
     public void initComponents() {
         frame = new JFrame("Traffic Line Control System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(BorderLayout.WEST, crossroadPanel);
 
-        JButton getConfigsButton = new JButton("Get config");
-        getConfigsButton.addActionListener(new getConfigActionListener());
+        // Get config file
+        buttonGetConfigFile = new JButton("Get config");
+        frame.add(buttonGetConfigFile);
+        buttonGetConfigFile.addActionListener(new getConfigActionListener());
+        buttonGetConfigFile.setBounds(600, 45, 150, 25);
 
-        frame.add(getConfigsButton);
-        getConfigsButton.setBounds(630, 20, 100, 25);
+        // Order combo box
+        comboboxOrder = new JComboBox<Integer>();
+        frame.add(comboboxOrder);
+        comboboxOrder.setBounds(675, 145, 75, 25);
+        comboboxOrder.setEnabled(false);
 
-        JButton lightButton = new JButton("Зажечь первый зеленым");
-        lightButton.addActionListener(new lightButtonListener());
-        frame.add(lightButton);
-        lightButton.setBounds(580, 150, 200, 25);
+        // Green time in seconds
+        textFieldTime = new JTextField();
+        frame.add(textFieldTime);
+        textFieldTime.setBounds(625, 145, 45, 25);
+        textFieldTime.setEnabled(false);
 
-        startGenerateTransportButton = new JButton("start transport");
-        startGenerateTransportButton.addActionListener(new startTransportListener());
-        frame.add(startGenerateTransportButton);
-        startGenerateTransportButton.setEnabled(false);
-        startGenerateTransportButton.setBounds(600, 400, 150, 25);
+        // Is using check box
+        checkBoxIsUse = new JCheckBox();
+        frame.add(checkBoxIsUse);
+        checkBoxIsUse.setBounds(600, 145, 25, 25);
+        checkBoxIsUse.setEnabled(false);
+        checkBoxIsUse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkBoxIsUse.isSelected()) {
+                    textFieldTime.setEnabled(true);
+                    comboboxOrder.setEnabled(true);
+                } else {
+                    textFieldTime.setEnabled(false);
+                    comboboxOrder.setEnabled(false);
+                }
+            }
+        });
 
-        stopGenerateTransportButton = new JButton("stop transport");
-        stopGenerateTransportButton.addActionListener(new stopTransportListener());
-        frame.add(stopGenerateTransportButton);
-        stopGenerateTransportButton.setBounds(600, 450, 150, 25);
+        // Next state
+        buttonNextState = new JButton("Next");
+        frame.add(buttonNextState);
+        buttonNextState.setBounds(600, 175, 150, 25);
+        buttonNextState.setEnabled(false);
+
+        // Configurate crossroad
+        buttonConfigurate = new JButton("Configurate");
+        frame.add(buttonConfigurate);
+        buttonConfigurate.setBounds(600, 115, 150, 25);
+        buttonConfigurate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkBoxIsUse.setEnabled(true);
+                buttonNextState.setEnabled(true);
+            }
+        });
+
+        // Light green
+        buttonLightGreen = new JButton("Light green");
+        frame.add(buttonLightGreen);
+        buttonLightGreen.addActionListener(new lightButtonListener());
+        buttonLightGreen.setBounds(600, 240, 150, 25);
+
+        // Start transport generating
+        buttonTransportStart = new JButton("Start transport");
+        frame.add(buttonTransportStart);
+        buttonTransportStart.addActionListener(new startTransportListener());
+        buttonTransportStart.setEnabled(false);
+        buttonTransportStart.setBounds(600, 455, 150, 25);
+
+        // Stop transport generationg
+        buttonTransportStop = new JButton("Stop transport");
+        frame.add(buttonTransportStop);
+        buttonTransportStop.addActionListener(new stopTransportListener());
+        buttonTransportStop.setBounds(600, 485, 150, 25);
 
         frame.setSize(800, 585);
         frame.setResizable(false);
@@ -139,6 +211,38 @@ public class MainFrame extends JFrame {
         }
     }
 
+    /**
+     * Generate transport.
+     */
+    public void generateTransport() {
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                for (int key : crossroadPanel.trafficLineHashMap.keySet()) {
+                    TrafficLine tmpLine = crossroadPanel.trafficLineHashMap.get(key);
+                    if (tmpLine.hasTrafficLight) {
+                        tmpLine.comingCars();
+                    }
+                }
+            }
+        }, 4, 4, TimeUnit.SECONDS);
+        buttonTransportStart.setEnabled(false);
+        buttonTransportStop.setEnabled(true);
+    }
+
+    /**
+     * Stop transport generation.
+     */
+    public void stopTransportGeneration() {
+        executor.shutdown();
+        buttonTransportStart.setEnabled(true);
+        buttonTransportStop.setEnabled(false);
+    }
+
+    /**
+     * The type Light button listener.
+     */
     public class lightButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
             crossroadPanel.trafficLineHashMap.get(11).lightGreen();
@@ -146,6 +250,9 @@ public class MainFrame extends JFrame {
         }
     }
 
+    /**
+     * The type Get config action listener.
+     */
     public class getConfigActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
             JFileChooser fileOpen = new JFileChooser();
@@ -167,6 +274,9 @@ public class MainFrame extends JFrame {
         }
     }
 
+    /**
+     * The type Stop transport listener.
+     */
     public class stopTransportListener implements ActionListener{
         public void actionPerformed(ActionEvent ev) {
             stopTransportGeneration();
@@ -174,6 +284,9 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * The type Start transport listener.
+     */
     public class startTransportListener implements ActionListener{
         public void actionPerformed(ActionEvent ev) {
             generateTransport();
@@ -181,36 +294,28 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * The type Coordinates.
+     */
     public class Coordinates {
+        /**
+         * The X.
+         */
         int x;
+        /**
+         * The Y.
+         */
         int y;
 
+        /**
+         * Instantiates a new Coordinates.
+         *
+         * @param _x the _ x
+         * @param _y the _ y
+         */
         public Coordinates(int _x, int _y) {
             x = _x;
             y = _y;
         }
-    }
-
-    public void generateTransport() {
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                for (int key : crossroadPanel.trafficLineHashMap.keySet()) {
-                    TrafficLine tmpLine = crossroadPanel.trafficLineHashMap.get(key);
-                    if (tmpLine.hasTrafficLight) {
-                        tmpLine.comingCars();
-                    }
-                }
-            }
-        }, 4, 4, TimeUnit.SECONDS);
-        startGenerateTransportButton.setEnabled(false);
-        stopGenerateTransportButton.setEnabled(true);
-    }
-
-    public void stopTransportGeneration(){
-        executor.shutdown();
-        startGenerateTransportButton.setEnabled(true);
-        stopGenerateTransportButton.setEnabled(false);
     }
 }
