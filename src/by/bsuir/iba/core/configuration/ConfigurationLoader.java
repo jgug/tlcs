@@ -61,7 +61,6 @@ public class ConfigurationLoader {
             configuration.setConflictMatrix(
                     getInt2DArray(properties.getProperty("CONFLICT_MATRIX"))
             );
-            configuration.setLines();
             inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,8 +90,9 @@ public class ConfigurationLoader {
      */
     public int[][] getInt2DArray(String str) {
         String[] arrStr = str.split(" ");
-        int arrLength = arrStr.length;
+        int arrLength = arrStr.length + 1;
         int size = (int) Math.sqrt(arrLength);
+        configuration.setLines(size - configuration.getPedestrianCount());
         int[][] arrInt = new int[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {

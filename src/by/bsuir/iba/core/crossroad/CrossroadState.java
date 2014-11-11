@@ -15,7 +15,8 @@ import java.util.*;
 public class CrossroadState {
     @Deprecated
     private List<int[]> statesList = new ArrayList<>();
-    private Map<Integer, int[]> stateMap = new HashMap<>();
+    private Map<Integer, int[]> treeTempMap = new TreeMap<>();
+    private Map<Integer, int[]> stateMap = new TreeMap<>();
     private int currentPosition;
     private int listSize;
 
@@ -39,41 +40,98 @@ public class CrossroadState {
     }
 
     /**
+     * Gets state map.
+     *
+     * @return the state map
+     */
+    public Map<Integer, int[]> getStateMap() {
+        return stateMap;
+    }
+
+    /**
      * Sets state map.
      *
      * @param arr the arr
      */
     public void setStateMap(int[][] arr) {
-        arr = rotateMatrix(arr);
+//        System.out.println("Array is");
+//        for (int i = 0; i < arr.length; i++) {
+//            for (int j = 0; j < arr.length; j++) {
+//                System.out.print(arr[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
+
         Configuration configuration = Configuration.getInstance();
-        int count = configuration.getRoads() + configuration
-                .getPedestrianCount();
+        int count = configuration.getRoads() + configuration.getPedestrianCount();
+        int all = configuration.getLines() + configuration.getPedestrianCount();
         int[] right = configuration.getRightTurns();
         int[] left = configuration.getLeftTurns();
         int[] straight = configuration.getStraight();
         int[] pedestrian = configuration.getPedestrianCrossings();
+        Integer[] indexes = new Integer[all];
 
+        int counter = 0;
         for (int i = 1; i <= count; i++) {
             int second = 1;
+//            System.out.println();
+//            System.out.println("i=" + i);
             for (int k = 1; k <= right[i - 1]; k++) {
-                stateMap.put(getIndex(i, second), arr[second - 1]);
+//                System.out.println("k=" + k);
+                indexes[counter] = getIndex(i, second);
                 second++;
+                counter++;
             }
             for (int k = 1; k <= straight[i - 1]; k++) {
-                stateMap.put(getIndex(i, second), arr[second - 1]);
+                indexes[counter] = getIndex(i, second);
                 second++;
+                counter++;
             }
             for (int k = 1; k <= left[i - 1]; k++) {
-                stateMap.put(getIndex(i, second), arr[second - 1]);
+                indexes[counter] = getIndex(i, second);
                 second++;
+                counter++;
             }
             if (configuration.getPedestrianCount() != 0) {
                 for (int k = 1; k <= pedestrian[i - 1]; k++) {
-                    stateMap.put(getIndex(i, second), arr[second - 1]);
+                    indexes[counter] = getIndex(i, second);
                     second++;
+                    counter++;
                 }
             }
         }
+
+//        System.out.println("INDEXES ARRAY");
+//        for (int i = 0; i < indexes.length; i++) {
+//            System.out.println(indexes[i]);
+//        }
+
+        for (int i = 0; i < all; i++) {
+            treeTempMap.put(i, arr[i]);
+        }
+
+        for (int i = 0; i < all; i++) {
+            stateMap.put(indexes[i], treeTempMap.get(i));
+        }
+
+        System.out.println("TreeHash map is:");
+        for (Integer j : treeTempMap.keySet()) {
+            for (int l : treeTempMap.get(j)) {
+                System.out.print(l + " ");
+            }
+            System.out.println(" ");
+        }
+        System.out.println(" ");
+
+        System.out.println("State map is:");
+        for (Integer j : stateMap.keySet()) {
+            System.out.print("KEY=" + j + " ");
+            for (int l : stateMap.get(j)) {
+                System.out.print(l + " ");
+            }
+            System.out.println(" ");
+        }
+        System.out.println(" ");
 
     }
 

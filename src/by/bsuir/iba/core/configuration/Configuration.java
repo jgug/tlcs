@@ -85,12 +85,8 @@ public class Configuration {
      * Sets total number of lines in a crossroad depending of is pedestrian
      * crossing exists or not.
      */
-    public void setLines() {
-        if (pedestrianCrossings != null) {
-            lines = conflictMatrix.length - pedestrianCrossings.length;
-        } else {
-            lines = conflictMatrix.length;
-        }
+    public void setLines(int lines) {
+        this.lines = lines;
     }
 
     /**
