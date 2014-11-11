@@ -1,6 +1,5 @@
 package by.bsuir.iba.gui;
 
-import by.bsuir.iba.core.State;
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.configuration.ConfigurationLoader;
 
@@ -9,8 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.*;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -36,12 +35,13 @@ public class MainFrame extends JFrame {
     protected JTextField textFieldTime;
     protected JCheckBox checkBoxIsUse;
     protected JComboBox<Integer> comboboxOrder;
-
     private boolean isChecked;
-
-    private List<String> list = new ArrayList<>();
-    private Set<State> stateHashSet = new HashSet<>();
-
+    private int item;
+    private int time;
+    private int count;
+    private int globalIndex = 0;
+    private Map<Integer, String> map1 = new HashMap<>();
+    private Map<Integer, String> map2 = new HashMap<>();
 
     /**
      * Sets configs.
@@ -152,6 +152,12 @@ public class MainFrame extends JFrame {
         frame.add(comboboxOrder);
         comboboxOrder.setBounds(675, 145, 75, 25);
         comboboxOrder.setEnabled(false);
+        comboboxOrder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                item = comboboxOrder.getItemAt(comboboxOrder.getSelectedIndex());
+            }
+        });
 
         // Green time in seconds
         textFieldTime = new JTextField();
@@ -170,18 +176,14 @@ public class MainFrame extends JFrame {
                 if (checkBoxIsUse.isSelected()) {
                     textFieldTime.setEnabled(true);
                     comboboxOrder.setEnabled(true);
+                    isChecked = true;
                 } else {
                     textFieldTime.setEnabled(false);
                     comboboxOrder.setEnabled(false);
+                    isChecked = false;
                 }
             }
         });
-
-        // Next state
-        buttonNextState = new JButton("Next");
-        frame.add(buttonNextState);
-        buttonNextState.setBounds(600, 175, 150, 25);
-        buttonNextState.setEnabled(false);
 
         // Configurate crossroad
         buttonConfigurate = new JButton("Configurate");
@@ -192,6 +194,29 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 checkBoxIsUse.setEnabled(true);
                 buttonNextState.setEnabled(true);
+                fillMap();
+                count = map1.keySet().size();
+                readMap(map1);
+                textFieldTime.setText("8");
+                int size = map1.keySet().size();
+                for (int i = 0; i < size; i++) {
+                    comboboxOrder.addItem(i);
+                }
+            }
+        });
+
+        // Next state
+        buttonNextState = new JButton("Next");
+        frame.add(buttonNextState);
+        buttonNextState.setBounds(600, 175, 150, 25);
+        buttonNextState.setEnabled(false);
+        buttonNextState.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nextItem();
+                if (isChecked) {
+                    time = Integer.parseInt(textFieldTime.getText());
+                }
             }
         });
 
@@ -202,8 +227,14 @@ public class MainFrame extends JFrame {
         buttonLightGreen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                crossroadPanel.trafficLineHashMap.get(11).lightGreen();
+//                crossroadPanel.trafficLineHashMap.get(11).lightGreen();
                 frame.repaint();
+                System.out.println();
+                System.out.println("MAP1");
+                readMap(map1);
+                System.out.println();
+                System.out.println("MAP2");
+                readMap(map2);
             }
         });
 
@@ -275,17 +306,46 @@ public class MainFrame extends JFrame {
         buttonTransportStop.setEnabled(false);
     }
 
+//=====================================================================================================================
+
+    public void fillMap() {
+        for (int i = 0; i < 10; i++) {
+            map1.put(i, "Item" + i);
+        }
+    }
+
+    public void updateComboBox() {
+        comboboxOrder.removeAllItems();
+        int size = map1.keySet().size();
+        for (int i = 0; i < size; i++) {
+            comboboxOrder.addItem(i);
+        }
+    }
+
+    public void nextItem() {
+        if (globalIndex < map1.keySet().size()) {
+            if (isChecked) {
+                map2.put(item, map1.get(globalIndex));
+            }
+            map1.remove(globalIndex);
+            globalIndex++;
+        }
+    }
+
+    public void readMap(Map<Integer, String> map) {
+        int size = map.keySet().size();
+        for (int i = 0; i < size; i++) {
+            System.out.println(map.get(i));
+        }
+    }
+
+//=====================================================================================================================
+
     /**
      * The type Coordinates.
      */
     public class Coordinates {
-        /**
-         * The X.
-         */
         int x;
-        /**
-         * The Y.
-         */
         int y;
 
         /**
