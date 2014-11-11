@@ -125,8 +125,27 @@ public class MainFrame extends JFrame {
         // Get config file
         buttonGetConfigFile = new JButton("Get config");
         frame.add(buttonGetConfigFile);
-        buttonGetConfigFile.addActionListener(new getConfigActionListener());
         buttonGetConfigFile.setBounds(600, 45, 150, 25);
+        buttonGetConfigFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileOpen = new JFileChooser();
+                fileOpen.setCurrentDirectory(directory);
+                int result = fileOpen.showOpenDialog(MainFrame.this);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    directory = fileOpen.getCurrentDirectory();
+                    _path = fileOpen.getSelectedFile().getPath();
+                    crossroadPanel.trafficLineHashMap.clear();
+                    crossroadPanel.removeAll();
+                    frame.repaint();
+                    setConfigs();
+                    frame.repaint();
+                }
+                if (result == JFileChooser.CANCEL_OPTION) {
+                    System.out.println("Canceled");
+                }
+            }
+        });
 
         // Order combo box
         comboboxOrder = new JComboBox<Integer>();
@@ -179,21 +198,37 @@ public class MainFrame extends JFrame {
         // Light green
         buttonLightGreen = new JButton("Light green");
         frame.add(buttonLightGreen);
-        buttonLightGreen.addActionListener(new lightButtonListener());
         buttonLightGreen.setBounds(600, 240, 150, 25);
+        buttonLightGreen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                crossroadPanel.trafficLineHashMap.get(11).lightGreen();
+                frame.repaint();
+            }
+        });
 
         // Start transport generating
         buttonTransportStart = new JButton("Start transport");
         frame.add(buttonTransportStart);
-        buttonTransportStart.addActionListener(new startTransportListener());
         buttonTransportStart.setEnabled(false);
         buttonTransportStart.setBounds(600, 455, 150, 25);
+        buttonTransportStart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generateTransport();
+            }
+        });
 
         // Stop transport generationg
         buttonTransportStop = new JButton("Stop transport");
         frame.add(buttonTransportStop);
-        buttonTransportStop.addActionListener(new stopTransportListener());
         buttonTransportStop.setBounds(600, 485, 150, 25);
+        buttonTransportStop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopTransportGeneration();
+            }
+        });
 
         frame.setSize(800, 585);
         frame.setResizable(false);
@@ -238,60 +273,6 @@ public class MainFrame extends JFrame {
         executor.shutdown();
         buttonTransportStart.setEnabled(true);
         buttonTransportStop.setEnabled(false);
-    }
-
-    /**
-     * The type Light button listener.
-     */
-    public class lightButtonListener implements ActionListener {
-        public void actionPerformed(ActionEvent ev) {
-            crossroadPanel.trafficLineHashMap.get(11).lightGreen();
-            frame.repaint();
-        }
-    }
-
-    /**
-     * The type Get config action listener.
-     */
-    public class getConfigActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent ev) {
-            JFileChooser fileOpen = new JFileChooser();
-            fileOpen.setCurrentDirectory(directory);
-            int result = fileOpen.showOpenDialog(MainFrame.this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                directory = fileOpen.getCurrentDirectory();
-                _path = fileOpen.getSelectedFile().getPath();
-                crossroadPanel.trafficLineHashMap.clear();
-                crossroadPanel.removeAll();
-                frame.repaint();
-                setConfigs();
-                frame.repaint();
-            }
-            if (result == JFileChooser.CANCEL_OPTION) {
-                System.out.println("Canceled");
-            }
-
-        }
-    }
-
-    /**
-     * The type Stop transport listener.
-     */
-    public class stopTransportListener implements ActionListener{
-        public void actionPerformed(ActionEvent ev) {
-            stopTransportGeneration();
-        }
-
-    }
-
-    /**
-     * The type Start transport listener.
-     */
-    public class startTransportListener implements ActionListener{
-        public void actionPerformed(ActionEvent ev) {
-            generateTransport();
-        }
-
     }
 
     /**
