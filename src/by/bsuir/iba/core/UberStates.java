@@ -6,7 +6,6 @@ import java.util.*;
  * The type Uber states.
  */
 public class UberStates {
-    private static final int USED = Integer.MAX_VALUE;
     ArrayList<int[]> friendsCombArrayList;
     Map<Integer, int[]> treeMap = new TreeMap<>();
     Set<int[]> stateTreeSet = new TreeSet<>(new Comparator<int[]>() {
@@ -29,7 +28,7 @@ public class UberStates {
     /**
      * Make me good.
      */
-    public void makeMeGood() {
+    public void recognizeStates() {
 
         Integer[] keys = treeMap.keySet().toArray(new Integer[treeMap.keySet().size()]);
 
@@ -47,7 +46,6 @@ public class UberStates {
                     numOfFriends++;
                 }
             }
-            System.out.println("Друзья у " + i);
             int[] friends = new int[numOfFriends];
             int[] friendsCopy = new int[numOfFriends];
             int indexFiend = 0;
@@ -66,18 +64,15 @@ public class UberStates {
 
             // мы нашли друзей, теперь важно чтобы друзья дружили между собой
             for (int it = 0; it < friendsCombArrayList.size(); it++) {
-                System.out.println('\n'+"-------------------------Работаем с  " + i);
                 int[] allFriends = friendsCombArrayList.get(it);
                 int countFriends = allFriends.length;
                 ArrayList<Integer> noFriendsArrayList = new ArrayList<>();
                 for (int m = 0; m < allFriends.length; m++) {                  //Серьезный разговор с друзьями по очереди
 
-                    System.out.println('\n' + "Проверим " + allFriends[m]);
                     if (!noFriendsArrayList.contains(allFriends[m])) {
                         for (int k = 0; k < adventurer.length; k++) {
                             if (treeMap.get(allFriends[m])[k] != adventurer[k] && treeMap.get(allFriends[m])[k] == 1) {
 
-                                System.out.println(keys[k] + " Больше не друг!");
                                 if (!noFriendsArrayList.contains(keys[k])) {
                                     int noFriend = keys[k];
                                     noFriendsArrayList.add(noFriend);
@@ -95,26 +90,11 @@ public class UberStates {
                             }
                         }
 
-                    } else {
-                        System.out.println(allFriends[m] + " Был удален ранее");
                     }
                 }
-                System.out.println("      Стейт на основе     " + i);
-                for (int s = 0; s < friends.length; s++) {
                     bubbleSortUp(friends);
                     stateTreeSet.add(friends);
-                    System.out.println(friends[s]);
-                }
-
-                System.out.println("из друзей мы потеряли");
-                for (int j : noFriendsArrayList) {
-                    System.out.print(j + " ");
-                }
-                System.out.println('\n' + "-------------------------закончили с " + i + '\n');
             }
-        }
-        for(int j = 0; j<2;j++){
-            int k = 100;
         }
     }
 

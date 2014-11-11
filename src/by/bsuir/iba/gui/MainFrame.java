@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
 
         for (int i = 1; i <= conf.getRoads(); i++) {
             lineIndex = i * 10;
-            if (conf.getRightTurns()[i - 1] != 0) {
+            if (conf.getLeftTurns()[i - 1] != 0) {
                 lineIndex++;
                 TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
                 crossroadPanel.addTrafficLine(tmpRightLine);
@@ -84,7 +84,7 @@ public class MainFrame extends JFrame {
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
 
-            if (conf.getLeftTurns()[i - 1] != 0) {
+            if (conf.getRightTurns()[i - 1] != 0) {
                 lineIndex++;
                 TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
                 crossroadPanel.addTrafficLine(tmpRightLine);
@@ -94,6 +94,19 @@ public class MainFrame extends JFrame {
                 TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
+
+          /*  if (conf.getStraight()[i - 1] != 0) {
+                lineIndex++;
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
+                crossroadPanel.addTrafficLine(tmpRightLine);
+            } else {
+                lineIndex++;
+                isBrick = true;
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                crossroadPanel.addTrafficLine(tmpRightLine);
+            }*/
+
+
 
             if (conf.getOutputLines()[i - 1] != 0) {
                 for (int outLines = 1; outLines <= 3; outLines++) {
@@ -239,7 +252,7 @@ public class MainFrame extends JFrame {
         // Start transport generating
         buttonTransportStart = new JButton("Start transport");
         frame.add(buttonTransportStart);
-        buttonTransportStart.setEnabled(false);
+        buttonTransportStart.setEnabled(true);
         buttonTransportStart.setBounds(600, 455, 150, 25);
         buttonTransportStart.addActionListener(new ActionListener() {
             @Override
@@ -251,6 +264,7 @@ public class MainFrame extends JFrame {
         // Stop transport generationg
         buttonTransportStop = new JButton("Stop transport");
         frame.add(buttonTransportStop);
+        buttonTransportStop.setEnabled(false);
         buttonTransportStop.setBounds(600, 485, 150, 25);
         buttonTransportStop.addActionListener(new ActionListener() {
             @Override
@@ -268,7 +282,7 @@ public class MainFrame extends JFrame {
     private void setPoints() {
         int[] coordinateX = {163, 203, 243, 283, 323, 363, 405, 405, 405, 405, 405, 405, 363, 320, 280, 240, 200, 160, 120, 120, 120, 120, 120, 120};
         int[] coordinateY = {115, 115, 115, 115, 115, 115, 163, 203, 243, 283, 323, 363, 410, 410, 410, 410, 410, 410, 363, 320, 280, 240, 200, 160};
-        int[] coordinateId = {11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 26, 31, 32, 33, 34, 35, 36, 41, 42, 43, 44, 45, 46};
+        int[] coordinateId = {33, 32, 31, 34, 35, 36, 23, 22, 21, 24, 25, 26, 13, 12, 11, 14, 15, 16, 43, 42, 41, 44, 45, 46};
         for (int i = 0; i < coordinateX.length; i++) {
             Coordinates tmpCoordinate = new Coordinates(coordinateX[i], coordinateY[i]);
             startPoints.put(coordinateId[i], tmpCoordinate);

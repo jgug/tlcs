@@ -37,7 +37,7 @@ public class CrossroadPanel extends JPanel {
                 switch (tmpLine.lineId / 10) {
                     case 1:
                         tmpX = tmpLine.x;
-                        tmpY = tmpLine.y - 100;
+                        tmpY = tmpLine.y + 100;
                         break;
                     case 2:
                         tmpX = tmpLine.x + 100;
@@ -45,7 +45,7 @@ public class CrossroadPanel extends JPanel {
                         break;
                     case 3:
                         tmpX = tmpLine.x;
-                        tmpY = tmpLine.y + 100;
+                        tmpY = tmpLine.y - 100;
                         break;
                     case 4:
                         tmpX = tmpLine.x - 100;
