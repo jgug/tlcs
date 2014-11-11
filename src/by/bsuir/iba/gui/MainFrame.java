@@ -1,5 +1,6 @@
 package by.bsuir.iba.gui;
 
+import by.bsuir.iba.core.UberStates;
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.configuration.ConfigurationLoader;
 
@@ -9,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +35,7 @@ public class MainFrame extends JFrame {
     protected JButton buttonTransportStop;
     protected JButton buttonConfigurate;
     protected JButton buttonNextState;
+    protected JButton goButton;
     protected JTextField textFieldTime;
     protected JCheckBox checkBoxIsUse;
     protected JComboBox<Integer> comboboxOrder;
@@ -105,7 +109,6 @@ public class MainFrame extends JFrame {
                 TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }*/
-
 
 
             if (conf.getOutputLines()[i - 1] != 0) {
@@ -249,6 +252,17 @@ public class MainFrame extends JFrame {
             }
         });
 
+        goButton = new JButton("Поехали!");
+        frame.add(goButton);
+        goButton.setBounds(600, 280, 150, 25);
+        goButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RunGarland garland = new RunGarland();
+                garland.start();
+            }
+        });
+
         // Start transport generating
         buttonTransportStart = new JButton("Start transport");
         frame.add(buttonTransportStart);
@@ -373,6 +387,46 @@ public class MainFrame extends JFrame {
         public Coordinates(int _x, int _y) {
             x = _x;
             y = _y;
+        }
+    }
+
+    class RunGarland extends Thread {
+        private final Object monitor = new Object();
+
+        @Override
+        public void run() {
+            synchronized (monitor) {
+                Set<int[]> stateTreeSet = UberStates.getStateTreeSet();
+                Iterator<int[]> iterator = stateTreeSet.iterator();
+                int[] lastLights = {};
+                while (iterator.hasNext()) {
+
+                    int[] tmp = iterator.next();
+                    System.out.println(lastLights.length + " Длина");
+                    if (lastLights.length != 0) {
+                        //      crossroadPanel.lightYellowLights(lastLights, tmp);
+                    /*try {
+                        wait(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }*/
+                    }
+
+                    lastLights = new int[tmp.length];
+                    for (int i = 0; i < tmp.length; i++) {
+                        lastLights[i] = tmp[i];
+                    }
+
+                    crossroadPanel.lightGreenLights(tmp);
+                    try {
+                        monitor.wait(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    crossroadPanel.lightRedLights(lastLights);
+//                        wait(5000);
+                }
+            }
         }
     }
 }

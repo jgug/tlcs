@@ -65,4 +65,32 @@ public class CrossroadPanel extends JPanel {
     public void addTrafficLine(TrafficLine t) {
         trafficLineHashMap.put(t.lineId, t);
     }
+
+    public synchronized void lightGreenLights(int[] lights){
+        for (int i = 0; i<lights.length; i++) {
+            TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
+            tmpLine.lightGreen();
+        }
+        this.repaint();
+    }
+
+    public synchronized void lightYellowLights(int[] lights, int[] lights2){
+        for (int i = 0; i<lights.length; i++) {
+            TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
+            tmpLine.lightYellow();
+        }
+        for (int i = 0; i<lights2.length; i++) {
+            TrafficLine tmpLine = trafficLineHashMap.get(lights2[i]);
+            tmpLine.lightYellow();
+        }
+        this.repaint();
+    }
+
+    public synchronized void lightRedLights(int[] lights){
+        for (int i = 0; i<lights.length; i++) {
+            TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
+            tmpLine.lightRed();
+        }
+        this.repaint();
+    }
 }

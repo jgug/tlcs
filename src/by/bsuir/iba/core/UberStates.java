@@ -8,7 +8,7 @@ import java.util.*;
 public class UberStates {
     ArrayList<int[]> friendsCombArrayList;
     Map<Integer, int[]> treeMap = new TreeMap<>();
-    Set<int[]> stateTreeSet = new TreeSet<>(new Comparator<int[]>() {
+    private static Set<int[]> stateTreeSet = new TreeSet<>(new Comparator<int[]>() {
         @Override
         public int compare(int[] o1, int[] o2) {
             return Arrays.equals(o1, o2) ? 0 : Arrays.hashCode(o1) - Arrays.hashCode(o2);
@@ -120,5 +120,9 @@ public class UberStates {
                 }
             }
         }
+    }
+
+    public static Set<int[]> getStateTreeSet(){
+        return stateTreeSet;
     }
 }
