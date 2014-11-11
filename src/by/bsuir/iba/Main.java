@@ -1,6 +1,5 @@
 package by.bsuir.iba;
 
-import by.bsuir.iba.core.UberStates;
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.configuration.ConfigurationLoader;
 import by.bsuir.iba.core.crossroad.CrossroadState;
@@ -19,9 +18,9 @@ public class Main {
         CrossroadState state = new CrossroadState();
         state.setStateMap(Configuration.getInstance().getConflictMatrix());
 
-        UberStates uberStates = new UberStates();
-        uberStates.setHashMap(state.getStateMap());
-        uberStates.makeMeGood();
+//        UberStates uberStates = new UberStates();
+//        uberStates.setHashMap(state.getStateMap());
+//        uberStates.makeMeGood();
 //        uberStates.show();
     }
 }
