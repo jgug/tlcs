@@ -9,7 +9,12 @@ public class UberStates {
     private static final int USED = Integer.MAX_VALUE;
     ArrayList<int[]> friendsCombArrayList;
     Map<Integer, int[]> treeMap = new TreeMap<>();
-    HashSet stateHashSet = new HashSet();
+    Set<int[]> stateTreeSet = new TreeSet<>(new Comparator<int[]>() {
+        @Override
+        public int compare(int[] o1, int[] o2) {
+            return Arrays.equals(o1, o2) ? 0 : Arrays.hashCode(o1) - Arrays.hashCode(o2);
+        }
+    });
     int[] adventurer;
 
     /**
@@ -29,7 +34,7 @@ public class UberStates {
         Integer[] keys = treeMap.keySet().toArray(new Integer[treeMap.keySet().size()]);
 
         for (int i : keys) {
-            System.out.println("-------------------------Берем " + i);
+
 
             adventurer = new int[treeMap.get(i).length];
             for (int j = 0; j < treeMap.get(i).length; j++) {
@@ -44,27 +49,31 @@ public class UberStates {
             }
             System.out.println("Друзья у " + i);
             int[] friends = new int[numOfFriends];
-            int[] allFriends = new int[numOfFriends];
+            int[] friendsCopy = new int[numOfFriends];
             int indexFiend = 0;
             for (int f = 0; f < adventurer.length; f++) {
                 if (adventurer[f] == 0) {                             //добавляем в друзья
                     friends[indexFiend] = keys[f];
-                    allFriends[indexFiend] = keys[f];
+                    friendsCopy[indexFiend] = keys[f];
                     System.out.print(keys[f] + " ");
                     indexFiend++;
                 }
             }
             friendsCombArrayList = new ArrayList<>();
-            friendsCombination(friends, new Stack<Integer>(), friends.length);  //все комбинации порядка друзей
+            friendsCombArrayList.add(friends);
+            bubbleSortDown(friendsCopy);
+            friendsCombArrayList.add(friendsCopy);
 
             // мы нашли друзей, теперь важно чтобы друзья дружили между собой
-            for (int[] allFriend : friendsCombArrayList) {
-                int countFriends = allFriend.length;
+            for (int it = 0; it < friendsCombArrayList.size(); it++) {
+                System.out.println('\n'+"-------------------------Работаем с  " + i);
+                int[] allFriends = friendsCombArrayList.get(it);
+                int countFriends = allFriends.length;
                 ArrayList<Integer> noFriendsArrayList = new ArrayList<>();
-                for (int m = 0; m < allFriend.length; m++) {                  //Серьезный разговор с друзьями по очереди
+                for (int m = 0; m < allFriends.length; m++) {                  //Серьезный разговор с друзьями по очереди
 
-                    System.out.println('\n' + "Проверим " + allFriend[m]);
-                    if (!noFriendsArrayList.contains(allFriend[m])) {
+                    System.out.println('\n' + "Проверим " + allFriends[m]);
+                    if (!noFriendsArrayList.contains(allFriends[m])) {
                         for (int k = 0; k < adventurer.length; k++) {
                             if (treeMap.get(allFriends[m])[k] != adventurer[k] && treeMap.get(allFriends[m])[k] == 1) {
 
@@ -73,17 +82,11 @@ public class UberStates {
                                     int noFriend = keys[k];
                                     noFriendsArrayList.add(noFriend);
                                     countFriends--;
-
-                               /* int[] copyFriends = new int[friends.length];
-                                for (int d = 0; d < friends.length; d++) {
-                                    copyFriends[d] = friends[d];
-                                }*/
-
                                     friends = new int[countFriends];
                                     int newFriendIndex = 0;
-                                    for (int h = 0; h < allFriend.length; h++) {
+                                    for (int h = 0; h < allFriends.length; h++) {
                                         if (!noFriendsArrayList.contains(allFriends[h])) {
-                                            friends[newFriendIndex] = allFriend[h];
+                                            friends[newFriendIndex] = allFriends[h];
                                             newFriendIndex++;
                                         }
                                     }
@@ -98,8 +101,8 @@ public class UberStates {
                 }
                 System.out.println("      Стейт на основе     " + i);
                 for (int s = 0; s < friends.length; s++) {
-                    bubbleSort(friends);
-                    stateHashSet.add(friends);
+                    bubbleSortUp(friends);
+                    stateTreeSet.add(friends);
                     System.out.println(friends[s]);
                 }
 
@@ -110,28 +113,24 @@ public class UberStates {
                 System.out.println('\n' + "-------------------------закончили с " + i + '\n');
             }
         }
-    }
-
-    public void friendsCombination(int[] arr, Stack<Integer> s, int am) {
-        if (am == 0) {
-            System.out.println(Arrays.toString(s.toArray()));
-            int[] tmp = new int[s.toArray().length];
-            for (int ar = 0; ar < s.toArray().length; ar++) {
-                tmp[ar] = (int) s.toArray()[ar];
-            }
-            friendsCombArrayList.add(tmp);
-            return;
+        for(int j = 0; j<2;j++){
+            int k = 100;
         }
-        for (int i = 0; i < arr.length; i++)
-            if (arr[i] != USED) {
-                s.push(arr[i]);
-                arr[i] = USED;
-                friendsCombination(arr, s, am - 1);
-                arr[i] = s.pop();
-            }
     }
 
-    public static void bubbleSort(int[] arr) {
+    public static void bubbleSortDown(int[] arr) {
+        for (int i = arr.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (arr[j] < arr[j + 1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                }
+            }
+        }
+    }
+
+    public static void bubbleSortUp(int[] arr) {
         for (int i = arr.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (arr[j] > arr[j + 1]) {
