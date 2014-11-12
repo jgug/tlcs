@@ -8,7 +8,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Ruslan
+ * @author Ruslan Ardytski
+ * @author Pavel Vashkel
  */
 public class CrossroadPanel extends JPanel {
     HashMap<Integer, TrafficLine> trafficLineHashMap = new HashMap<>();
@@ -133,7 +134,7 @@ public class CrossroadPanel extends JPanel {
         temparr = lights;
         Decrementer dec = new Decrementer();
         dec.start();
-        for (int i = 0; i<lights.length; i++) {
+        for (int i = 0; i < lights.length; i++) {
             TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
             tmpLine.lightGreen();
         }
@@ -142,7 +143,7 @@ public class CrossroadPanel extends JPanel {
 
     public synchronized void lightYellowLights(int[] lights) {
         executor.shutdown();
-        for (int i = 0; i<lights.length; i++) {
+        for (int i = 0; i < lights.length; i++) {
             TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
             tmpLine.lightYellow();
         }
@@ -151,7 +152,7 @@ public class CrossroadPanel extends JPanel {
 
     public synchronized void lightRedLights(int[] lights) {
         executor.shutdown();
-        for (int i = 0; i<lights.length; i++) {
+        for (int i = 0; i < lights.length; i++) {
             TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
             tmpLine.lightRed();
         }

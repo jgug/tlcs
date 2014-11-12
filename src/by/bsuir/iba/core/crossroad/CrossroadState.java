@@ -199,6 +199,11 @@ public class CrossroadState {
         return arr;
     }
 
+    /**
+     * Previous map state.
+     *
+     * @return the int [ ]
+     */
     public int[] previousMapState() {
         int[] arr;
         List<int[]> list = new ArrayList<>(stateMap.values());

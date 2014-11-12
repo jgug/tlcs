@@ -14,5 +14,7 @@ package by.bsuir.iba.core.enumerations;
  * @see java.lang.Enum
  */
 public enum TrafficLightColor {
-    GREEN, AMBER, RED
+    GREEN,
+    AMBER,
+    RED
 }

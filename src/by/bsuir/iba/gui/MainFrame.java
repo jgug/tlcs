@@ -19,7 +19,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Ruslan on 07.11.14.
+ * Main frame of the TLCS app
+ *
+ * @author Ruslan Ardytski
+ * @author Pavel Vashkel
  */
 public class MainFrame extends JFrame {
     final ConfigurationLoader configurationLoader = new ConfigurationLoader();
@@ -43,7 +46,6 @@ public class MainFrame extends JFrame {
     protected JComboBox<TrafficSchedules> comboboxTrafficSchedule;
     Set<int[]> stateTreeSetForConfig;
     Iterator<int[]> statesIterator;
-    HashMap<Integer, Integer> dataProvider;
     HashMap<Integer, State> statesHashMap = new HashMap<>();
     private boolean isChecked;
     private int time;
@@ -71,49 +73,57 @@ public class MainFrame extends JFrame {
             lineIndex = i * 10;
             if (conf.getLeftTurns()[i - 1] != 0) {
                 lineIndex++;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, true);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             } else {
                 lineIndex++;
                 isBrick = true;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, isBrick, false);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
 
             if (conf.getStraight()[i - 1] != 0) {
                 lineIndex++;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, true);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             } else {
                 lineIndex++;
                 isBrick = true;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, isBrick, false);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
 
             if (conf.getRightTurns()[i - 1] != 0) {
                 lineIndex++;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, true);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             } else {
                 lineIndex++;
                 isBrick = true;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, isBrick, false);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
 
             if (conf.getOutputLines()[i - 1] != 0) {
                 for (int outLines = 1; outLines <= 3; outLines++) {
                     lineIndex++;
-                    isBrick = (conf.getOutputLines()[i - 1] >= outLines) ? false : true;
-                    TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                    isBrick = (conf.getOutputLines()[i - 1] < outLines);
+                    TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                            startPoints.get(lineIndex).y, isBrick, false);
                     crossroadPanel.addTrafficLine(tmpRightLine);
                 }
             } else {
                 for (int outLines = 1; outLines <= 3; outLines++) {
                     lineIndex++;
                     isBrick = true;
-                    TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                    TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                            startPoints.get(lineIndex).y, isBrick, false);
                     crossroadPanel.addTrafficLine(tmpRightLine);
                 }
             }
@@ -124,12 +134,12 @@ public class MainFrame extends JFrame {
      * Init components.
      */
     public void initComponents() {
-        frame = new JFrame("Traffic Line Control System");
+        frame = new JFrame("Traffic Light Control System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-//        frame.add(BorderLayout.WEST, crossroadPanel);
         optionPanel = new JPanel();
         optionPanel.setLayout(null);
+
         // Get config file
         buttonGetConfigFile = new JButton("Get config");
         optionPanel.add(buttonGetConfigFile);
@@ -163,7 +173,6 @@ public class MainFrame extends JFrame {
         comboboxOrder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                item = comboboxOrder.getItemAt(comboboxOrder.getSelectedIndex());
             }
         });
 
@@ -204,20 +213,11 @@ public class MainFrame extends JFrame {
                 checkBoxIsUse.setEnabled(true);
                 buttonNextState.setEnabled(true);
 
-                /*fillMap();
-                count = map1.keySet().size();
-                readMap(map1);
-                textFieldTime.setText("8");*/
-
-//                updateComboBox();
                 stateTreeSetForConfig = States.getStateTreeSet();
                 statesIterator = stateTreeSetForConfig.iterator();
-//                dataProvider = new HashMap<>();
                 for (int i = 0; i < stateTreeSetForConfig.size(); i++) {
                     comboboxOrder.addItem(i + 1);
-//                    dataProvider.put(i, i);
                 }
-//                comboboxOrder.addItem(dataPrivider);
 
                 comboboxOrder.setEnabled(true);
                 comboboxOrder.setSelectedIndex(-1);
@@ -239,7 +239,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isChecked) {
-                    if (textFieldTime.getText() != "") {
+                    if (!textFieldTime.getText().equals("")) {
                         time = Integer.parseInt(textFieldTime.getText());
                         State state = new State(tmpConfigState, time);
                         statesHashMap.put((Integer) comboboxOrder.getSelectedItem(), state);
@@ -258,7 +258,6 @@ public class MainFrame extends JFrame {
                         comboboxOrder.removeItemAt(comboboxOrder.getSelectedIndex());
                     }
                     comboboxOrder.setSelectedIndex(-1);
-//                    if(comboboxOrder.getItemCount())
                     System.out.println("Число итемов" + comboboxOrder.getItemCount());
                 } else {
                     crossroadPanel.lightRedLights(tmpConfigState);
@@ -277,7 +276,7 @@ public class MainFrame extends JFrame {
             }
         });
 
-        goButton = new JButton("Поехали!");
+        goButton = new JButton("Run");
         optionPanel.add(goButton);
         goButton.setBounds(50, 280, 150, 25);
         goButton.addActionListener(new ActionListener() {
@@ -351,9 +350,12 @@ public class MainFrame extends JFrame {
     }
 
     private void setPoints() {
-        int[] coordinateX = {163, 203, 243, 283, 323, 363, 405, 405, 405, 405, 405, 405, 363, 320, 280, 240, 200, 160, 120, 120, 120, 120, 120, 120};
-        int[] coordinateY = {115, 115, 115, 115, 115, 115, 163, 203, 243, 283, 323, 363, 410, 410, 410, 410, 410, 410, 363, 320, 280, 240, 200, 160};
-        int[] coordinateId = {33, 32, 31, 34, 35, 36, 23, 22, 21, 24, 25, 26, 13, 12, 11, 14, 15, 16, 43, 42, 41, 44, 45, 46};
+        int[] coordinateX = {163, 203, 243, 283, 323, 363, 405, 405, 405, 405, 405, 405, 363, 320, 280, 240, 200,
+                160, 120, 120, 120, 120, 120, 120};
+        int[] coordinateY = {115, 115, 115, 115, 115, 115, 163, 203, 243, 283, 323, 363, 410, 410, 410, 410, 410,
+                410, 363, 320, 280, 240, 200, 160};
+        int[] coordinateId = {33, 32, 31, 34, 35, 36, 23, 22, 21, 24, 25, 26, 13, 12, 11, 14, 15, 16, 43, 42, 41, 44,
+                45, 46};
         for (int i = 0; i < coordinateX.length; i++) {
             Coordinates tmpCoordinate = new Coordinates(coordinateX[i], coordinateY[i]);
             startPoints.put(coordinateId[i], tmpCoordinate);
@@ -410,78 +412,18 @@ public class MainFrame extends JFrame {
         }
     }
 
+    /**
+     * The type Run garland.
+     */
     class RunGarland extends Thread {
         private final Object monitor = new Object();
 
         @Override
-//        public void run() {
-//            synchronized (monitor) {
-//                int[] lastLights = {};
-//                int yellowCount = 0;
-//                int yellowIndex = 0;
-//                int[] lightYellow;
-//
-//                TreeSet<Integer> yellowLights = new TreeSet<>();
-//
-//
-//                for (int key : statesHashMap.keySet()) {
-//                    MainFrame.State tmpState = statesHashMap.get(key);
-//
-//                    if (lastLights.length != 0) {
-//                        crossroadPanel.lightRedLights(lastLights);
-//                        lastLights = tmpState.greenLihgts;
-//                        for (int y = 0; y < lastLights.length; y++) {
-//                            if (!yellowLights.contains(lastLights[y])) {
-//                                yellowCount++;
-//                            }
-//                        }
-//
-//                        lightYellow = new int[yellowCount];
-//
-//                        for (int y = 0; y < lastLights.length; y++) {
-//                            if (!yellowLights.contains(lastLights[y])) {
-//                                lightYellow[yellowIndex] = lastLights[y];
-//                            }
-//                        }
-//
-//
-//                        crossroadPanel.lightYellowLights(lightYellow);
-//                        try {
-//                            monitor.wait(2000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//
-//                    if (lastLights.length == 0) {
-//                        lastLights = tmpState.greenLihgts;
-//                    }
-//                    crossroadPanel.lightGreenLights(lastLights);
-//                    yellowLights.clear();
-//                    yellowCount = 0;
-//                    for (int j = 0; j < lastLights.length; j++) {
-//                        yellowLights.add(lastLights[j]);
-//                    }
-//
-//                    try {
-//                        monitor.wait(tmpState.greenDelay * 1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }
-//        }
         public void run() {
             boolean fistRun = true;
             synchronized (monitor) {
-                int[] nextLights = {};
-                int yellowCount = 0;
-                int yellowIndex = 0;
-                int[] lightYellow;
+                int[] nextLights;
 
-                TreeSet<Integer> yellowLights = new TreeSet<>();
                 TreeSet<Integer> currentGreen = new TreeSet<>();
                 TreeSet<Integer> newGreen = new TreeSet<>();
                 TreeSet<Integer> withoutOrange = new TreeSet<>();
@@ -493,8 +435,7 @@ public class MainFrame extends JFrame {
                     for (int key : statesHashMap.keySet()) {
                         if (fistRun) {
                             MainFrame.State tmpState = statesHashMap.get(key);
-                            nextLights = tmpState.greenLihgts;
-
+                            nextLights = tmpState.greenLights;
 
                             crossroadPanel.lightYellowLights(nextLights);
                             try {
@@ -503,14 +444,12 @@ public class MainFrame extends JFrame {
                                 e.printStackTrace();
                             }
 
-
                             crossroadPanel.lightGreenLights(nextLights);
                             try {
                                 monitor.wait(tmpState.greenDelay * 1000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-
 
                             fistRun = false;
                             for (int i = 0; i < nextLights.length; i++) {
@@ -519,7 +458,7 @@ public class MainFrame extends JFrame {
                         } else {
 
                             MainFrame.State tmpState = statesHashMap.get(key);
-                            nextLights = tmpState.greenLihgts;
+                            nextLights = tmpState.greenLights;
 
                             for (int i = 0; i < nextLights.length; i++) {
                                 newGreen.add(nextLights[i]);
@@ -530,7 +469,6 @@ public class MainFrame extends JFrame {
                                     withoutOrange.add(nextLights[j]);
                                 }
                             }
-
 
                             int[] currentGreenmas = new int[currentGreen.size()];
                             int index = 0;
@@ -566,7 +504,6 @@ public class MainFrame extends JFrame {
                                 e.printStackTrace();
                             }
 
-
                             for (int i = 0; i < withOrangeMas.length; i++) {
                                 if (newGreen.contains(withOrangeMas[i])) {
                                     makeGreen.add(withOrangeMas[i]);
@@ -584,7 +521,6 @@ public class MainFrame extends JFrame {
                             for (int i = 0; i < withoutOrangeMas.length; i++) {
                                 makeGreen.add(withoutOrangeMas[i]);
                             }
-
 
                             int[] makeRedMas = new int[makeRed.size()];
                             int index4 = 0;
@@ -627,15 +563,20 @@ public class MainFrame extends JFrame {
                 }
             }
         }
-
-
     }
 
     private class State {
-        int[] greenLihgts;
+        int[] greenLights;
         int greenDelay;
+
+        /**
+         * Instantiates a new State.
+         *
+         * @param _greenLights the _ green lights
+         * @param _greenDelay  the _ green delay
+         */
         public State(int[] _greenLights, int _greenDelay) {
-            greenLihgts = _greenLights;
+            greenLights = _greenLights;
             greenDelay = _greenDelay;
         }
     }

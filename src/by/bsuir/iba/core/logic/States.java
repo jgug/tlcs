@@ -3,7 +3,7 @@ package by.bsuir.iba.core.logic;
 import java.util.*;
 
 /**
- * The type Uber states.
+ * The type States.
  */
 public class States {
     private static Set<int[]> stateTreeSet = new TreeSet<>(new Comparator<int[]>() {
@@ -16,6 +16,11 @@ public class States {
     Map<Integer, int[]> treeMap = new TreeMap<>();
     int[] adventurer;
 
+    /**
+     * Bubble sort down.
+     *
+     * @param arr the arr
+     */
     public static void bubbleSortDown(int[] arr) {
         for (int i = arr.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
@@ -28,6 +33,11 @@ public class States {
         }
     }
 
+    /**
+     * Bubble sort up.
+     *
+     * @param arr the arr
+     */
     public static void bubbleSortUp(int[] arr) {
         for (int i = arr.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
@@ -40,6 +50,11 @@ public class States {
         }
     }
 
+    /**
+     * Gets state tree set.
+     *
+     * @return the state tree set
+     */
     public static Set<int[]> getStateTreeSet() {
         return stateTreeSet;
     }

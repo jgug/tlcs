@@ -14,5 +14,7 @@ package by.bsuir.iba.core.enumerations;
  * @see java.lang.Enum
  */
 public enum TrafficLightType {
-    ROAD, PEDESTRIAN, BICYCLE
+    ROAD,
+    PEDESTRIAN,
+    BICYCLE
 }
