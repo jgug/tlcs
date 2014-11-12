@@ -2,6 +2,7 @@ package by.bsuir.iba.gui;
 
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.configuration.ConfigurationLoader;
+import by.bsuir.iba.core.enumerations.TrafficSchedules;
 import by.bsuir.iba.core.logic.States;
 
 import javax.swing.*;
@@ -9,7 +10,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +32,6 @@ public class MainFrame extends JFrame {
     protected String _path = "";
     protected ScheduledExecutorService executor;
     protected JButton buttonGetConfigFile;
-    protected JButton buttonLightGreen;
     protected JButton buttonTransportStart;
     protected JButton buttonTransportStop;
     protected JButton buttonConfigurate;
@@ -37,19 +40,15 @@ public class MainFrame extends JFrame {
     protected JTextField textFieldTime;
     protected JCheckBox checkBoxIsUse;
     protected JComboBox<Integer> comboboxOrder;
-    private boolean isChecked;
-    private int item;
-    private int time;
-    private int count;
-    private int globalIndex = 0;
-    private Map<Integer, String> map1 = new HashMap<>();
-    private Map<Integer, String> map2 = new HashMap<>();
-    Set<int[]> stateTreeSetForConfig;// = UberStates.getStateTreeSet();
-    Iterator<int[]> statesIterator;// = stateTreeSet.iterator();
+    protected JComboBox<TrafficSchedules> comboboxTrafficSchedule;
+    Set<int[]> stateTreeSetForConfig;
+    Iterator<int[]> statesIterator;
     HashMap<Integer, Integer> dataProvider;
-    private int tmpConfigState[];
-
     HashMap<Integer, State> statesHashMap = new HashMap<>();
+    private boolean isChecked;
+    private int time;
+    private int tmpConfigState[];
+    private int timeDelay = 4;
 
     /**
      * Sets configs.
@@ -239,7 +238,6 @@ public class MainFrame extends JFrame {
         buttonNextState.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                nextItem();
                 if (isChecked) {
                     if (textFieldTime.getText() != "") {
                         time = Integer.parseInt(textFieldTime.getText());
@@ -279,24 +277,6 @@ public class MainFrame extends JFrame {
             }
         });
 
-        // Light green
-        buttonLightGreen = new JButton("Light green");
-        optionPanel.add(buttonLightGreen);
-        buttonLightGreen.setBounds(50, 240, 150, 25);
-        buttonLightGreen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                crossroadPanel.trafficLineHashMap.get(11).lightGreen();
-                frame.repaint();
-                System.out.println();
-                System.out.println("MAP1");
-                readMap(map1);
-                System.out.println();
-                System.out.println("MAP2");
-                readMap(map2);
-            }
-        });
-
         goButton = new JButton("Поехали!");
         optionPanel.add(goButton);
         goButton.setBounds(50, 280, 150, 25);
@@ -330,6 +310,33 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 stopTransportGeneration();
+            }
+        });
+
+        // Choose traffic scheduling
+        comboboxTrafficSchedule = new JComboBox<>();
+        optionPanel.add(comboboxTrafficSchedule);
+        comboboxTrafficSchedule.setBounds(50, 320, 150, 25);
+        for (TrafficSchedules trs : TrafficSchedules.values()) {
+            comboboxTrafficSchedule.addItem(trs);
+        }
+        comboboxTrafficSchedule.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (comboboxTrafficSchedule.getItemAt(comboboxTrafficSchedule.getSelectedIndex())) {
+                    case BASIC: {
+                        timeDelay = 4;
+                    }
+                    break;
+                    case JAM: {
+                        timeDelay = 2;
+                    }
+                    break;
+                    case NIGHT: {
+                        timeDelay = 6;
+                    }
+                    break;
+                }
             }
         });
 
@@ -368,9 +375,10 @@ public class MainFrame extends JFrame {
                     }
                 }
             }
-        }, 4, 4, TimeUnit.SECONDS);
+        }, 4, timeDelay, TimeUnit.SECONDS);
         buttonTransportStart.setEnabled(false);
         buttonTransportStop.setEnabled(true);
+        comboboxTrafficSchedule.setEnabled(false);
     }
 
     /**
@@ -380,46 +388,8 @@ public class MainFrame extends JFrame {
         executor.shutdown();
         buttonTransportStart.setEnabled(true);
         buttonTransportStop.setEnabled(false);
+        comboboxTrafficSchedule.setEnabled(true);
     }
-
-//=====================================================================================================================
-
-    public void fillMap() {
-        map1.put(0, "one");
-        map1.put(1, "two");
-        map1.put(2, "three");
-        map1.put(3, "four");
-        map1.put(4, "five");
-    }
-
-    public void updateComboBox() {
-        for (Integer i : map1.keySet()) {
-//            comboboxOrder.addItem(i);
-        }
-    }
-
-    public void nextItem() {
-        System.out.println("LALAL = " + map1.keySet().size());
-        if (globalIndex < map1.keySet().size()) {
-            if (isChecked) {
-                map2.put(item, map1.get(globalIndex));
-            }
-            map1.remove(globalIndex);
-            globalIndex++;
-            System.out.println("GLOBAL INDEX = " + globalIndex);
-        } else {
-            System.out.println("зэтс инаф");
-        }
-        updateComboBox();
-    }
-
-    public void readMap(Map<Integer, String> map) {
-        for (Integer i : map.keySet()) {
-            System.out.println(map.get(i));
-        }
-    }
-
-//=====================================================================================================================
 
     /**
      * The type Coordinates.
@@ -662,12 +632,11 @@ public class MainFrame extends JFrame {
     }
 
     private class State {
+        int[] greenLihgts;
+        int greenDelay;
         public State(int[] _greenLights, int _greenDelay) {
             greenLihgts = _greenLights;
             greenDelay = _greenDelay;
         }
-
-        int[] greenLihgts;
-        int greenDelay;
     }
 }
