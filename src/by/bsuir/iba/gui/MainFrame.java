@@ -25,6 +25,7 @@ public class MainFrame extends JFrame {
     protected JFrame frame;
     protected Configuration conf;
     protected CrossroadPanel crossroadPanel = new CrossroadPanel();
+    protected JPanel optionPanel;
     protected HashMap<Integer, Coordinates> startPoints = new HashMap<>();
     protected File directory = new File("D:\\");
     protected String _path = "";
@@ -99,18 +100,6 @@ public class MainFrame extends JFrame {
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
 
-          /*  if (conf.getStraight()[i - 1] != 0) {
-                lineIndex++;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
-                crossroadPanel.addTrafficLine(tmpRightLine);
-            } else {
-                lineIndex++;
-                isBrick = true;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
-                crossroadPanel.addTrafficLine(tmpRightLine);
-            }*/
-
-
             if (conf.getOutputLines()[i - 1] != 0) {
                 for (int outLines = 1; outLines <= 3; outLines++) {
                     lineIndex++;
@@ -136,12 +125,13 @@ public class MainFrame extends JFrame {
         frame = new JFrame("Traffic Line Control System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.add(BorderLayout.WEST, crossroadPanel);
-
+//        frame.add(BorderLayout.WEST, crossroadPanel);
+        optionPanel = new JPanel();
+        optionPanel.setLayout(null);
         // Get config file
         buttonGetConfigFile = new JButton("Get config");
-        frame.add(buttonGetConfigFile);
-        buttonGetConfigFile.setBounds(600, 45, 150, 25);
+        optionPanel.add(buttonGetConfigFile);
+        buttonGetConfigFile.setBounds(50, 50, 150, 25);
         buttonGetConfigFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -165,8 +155,8 @@ public class MainFrame extends JFrame {
 
         // Order combo box
         comboboxOrder = new JComboBox<Integer>();
-        frame.add(comboboxOrder);
-        comboboxOrder.setBounds(675, 145, 75, 25);
+        optionPanel.add(comboboxOrder);
+        comboboxOrder.setBounds(150, 150, 45, 25);
         comboboxOrder.setEnabled(false);
         comboboxOrder.addActionListener(new ActionListener() {
             @Override
@@ -177,14 +167,14 @@ public class MainFrame extends JFrame {
 
         // Green time in seconds
         textFieldTime = new JTextField();
-        frame.add(textFieldTime);
-        textFieldTime.setBounds(625, 145, 45, 25);
+        optionPanel.add(textFieldTime);
+        textFieldTime.setBounds(90, 150, 45, 25);
         textFieldTime.setEnabled(false);
 
         // Is using check box
         checkBoxIsUse = new JCheckBox();
-        frame.add(checkBoxIsUse);
-        checkBoxIsUse.setBounds(600, 145, 25, 25);
+        optionPanel.add(checkBoxIsUse);
+        checkBoxIsUse.setBounds(50, 150, 25, 25);
         checkBoxIsUse.setEnabled(false);
         checkBoxIsUse.addActionListener(new ActionListener() {
             @Override
@@ -203,8 +193,8 @@ public class MainFrame extends JFrame {
 
         // Configurate crossroad
         buttonConfigurate = new JButton("Configurate");
-        frame.add(buttonConfigurate);
-        buttonConfigurate.setBounds(600, 115, 150, 25);
+        optionPanel.add(buttonConfigurate);
+        buttonConfigurate.setBounds(50, 110, 150, 25);
         buttonConfigurate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -221,8 +211,8 @@ public class MainFrame extends JFrame {
 
         // Next state
         buttonNextState = new JButton("Next");
-        frame.add(buttonNextState);
-        buttonNextState.setBounds(600, 175, 150, 25);
+        optionPanel.add(buttonNextState);
+        buttonNextState.setBounds(50, 185, 150, 25);
         buttonNextState.setEnabled(false);
         buttonNextState.addActionListener(new ActionListener() {
             @Override
@@ -236,8 +226,8 @@ public class MainFrame extends JFrame {
 
         // Light green
         buttonLightGreen = new JButton("Light green");
-        frame.add(buttonLightGreen);
-        buttonLightGreen.setBounds(600, 240, 150, 25);
+        optionPanel.add(buttonLightGreen);
+        buttonLightGreen.setBounds(50, 240, 150, 25);
         buttonLightGreen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -253,8 +243,8 @@ public class MainFrame extends JFrame {
         });
 
         goButton = new JButton("Поехали!");
-        frame.add(goButton);
-        goButton.setBounds(600, 280, 150, 25);
+        optionPanel.add(goButton);
+        goButton.setBounds(50, 280, 150, 25);
         goButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -265,9 +255,9 @@ public class MainFrame extends JFrame {
 
         // Start transport generating
         buttonTransportStart = new JButton("Start transport");
-        frame.add(buttonTransportStart);
+        optionPanel.add(buttonTransportStart);
         buttonTransportStart.setEnabled(true);
-        buttonTransportStart.setBounds(600, 455, 150, 25);
+        buttonTransportStart.setBounds(50, 455, 150, 25);
         buttonTransportStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -277,9 +267,9 @@ public class MainFrame extends JFrame {
 
         // Stop transport generationg
         buttonTransportStop = new JButton("Stop transport");
-        frame.add(buttonTransportStop);
+        optionPanel.add(buttonTransportStop);
         buttonTransportStop.setEnabled(false);
-        buttonTransportStop.setBounds(600, 485, 150, 25);
+        buttonTransportStop.setBounds(50, 490, 150, 25);
         buttonTransportStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -288,8 +278,12 @@ public class MainFrame extends JFrame {
         });
 
         frame.setSize(800, 585);
-        frame.setResizable(false);
+        frame.setResizable(true);
+        frame.getContentPane().setLayout(null);
         frame.getContentPane().add(crossroadPanel);
+        crossroadPanel.setBounds(0,0,555,555);
+        frame.getContentPane().add(optionPanel);
+        optionPanel.setBounds(555,0,200,555);
         frame.setVisible(true);
     }
 
