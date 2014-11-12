@@ -40,15 +40,17 @@ public class MainFrame extends JFrame {
     protected JTextField textFieldTime;
     protected JCheckBox checkBoxIsUse;
     protected JComboBox<Integer> comboboxOrder;
+    Set<int[]> stateTreeSetForConfig;// = UberStates.getStateTreeSet();
+    Iterator<int[]> iterator;// = stateTreeSet.iterator();
     private boolean isChecked;
     private int item;
     private int time;
     private int count;
     private int globalIndex = 0;
+    private boolean isGreen = false;
+    private int[] arrayGreen;
     private Map<Integer, String> map1 = new HashMap<>();
     private Map<Integer, String> map2 = new HashMap<>();
-    Set<int[]> stateTreeSetForConfig;// = UberStates.getStateTreeSet();
-    Iterator<int[]> iterator;// = stateTreeSet.iterator();
 
     /**
      * Sets configs.
@@ -210,9 +212,9 @@ public class MainFrame extends JFrame {
 
 //                updateComboBox();
 
-                for(int i = 0; i<stateTreeSet.size();i++){
-                    comboboxOrder.addItem(i);
-                }
+//                for(int i = 0; i<stateTreeSet.size();i++){
+//                    comboboxOrder.addItem(i);
+//                }
 
 
             }
@@ -258,7 +260,9 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RunGarland garland = new RunGarland();
+//                Decrementer decrementer = new Decrementer();
                 garland.start();
+//                decrementer.start();
             }
         });
 
@@ -286,6 +290,9 @@ public class MainFrame extends JFrame {
             }
         });
 
+        // Choose traffic scheduling
+
+
         frame.setSize(800, 585);
         frame.setResizable(true);
         frame.getContentPane().setLayout(null);
@@ -307,6 +314,21 @@ public class MainFrame extends JFrame {
     }
 
     /**
+     * Decrement transport.
+     */
+    public void decrementTransport(int[] arr) {
+        int timeDelay = TrafficLine.getTimetogo();
+        final int[] temp = arr;
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                crossroadPanel.decrementLines(temp);
+            }
+        }, 0, timeDelay, TimeUnit.MILLISECONDS);
+    }
+
+    /**
      * Generate transport.
      */
     public void generateTransport() {
@@ -321,7 +343,7 @@ public class MainFrame extends JFrame {
                     }
                 }
             }
-        }, 4, 4, TimeUnit.SECONDS);
+        }, 0, 4, TimeUnit.SECONDS);
         buttonTransportStart.setEnabled(false);
         buttonTransportStop.setEnabled(true);
     }
@@ -419,12 +441,14 @@ public class MainFrame extends JFrame {
                         lastLights[i] = tmp[i];
                     }
 
+//                    arrayGreen = tmp;
                     crossroadPanel.lightGreenLights(tmp);
                     try {
-                        monitor.wait(2000);
+                        monitor.wait(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                     crossroadPanel.lightRedLights(lastLights);
 //                        wait(5000);
                 }

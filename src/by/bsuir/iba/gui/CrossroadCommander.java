@@ -9,11 +9,11 @@ import by.bsuir.iba.core.crossroad.CrossroadState;
  * Created by Ruslan on 09.11.14.
  */
 public class CrossroadCommander {
-    public void startFun(){
+    public void startFun() {
 
 
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
-        configurationLoader.setPath("D:\\Java\\TLCS\\resources\\configurations\\TLCS.properties");
+        configurationLoader.setPath("resources\\configurations\\TLCS.properties");
         configurationLoader.load();
         CrossroadState state = new CrossroadState();
         state.setStateMap(Configuration.getInstance().getConflictMatrix());
