@@ -48,7 +48,9 @@ public class MainFrame extends JFrame {
     private Map<Integer, String> map1 = new HashMap<>();
     private Map<Integer, String> map2 = new HashMap<>();
     Set<int[]> stateTreeSetForConfig;// = UberStates.getStateTreeSet();
-    Iterator<int[]> iterator;// = stateTreeSet.iterator();
+    Iterator<int[]> statesIterator;// = stateTreeSet.iterator();
+    HashMap<Integer, Integer> dataProvider;
+    private int tmpConfigState[];
 
     /**
      * Sets configs.
@@ -156,14 +158,14 @@ public class MainFrame extends JFrame {
         });
 
         // Order combo box
-        comboboxOrder = new JComboBox<Integer>();
+        comboboxOrder = new JComboBox<>();
         optionPanel.add(comboboxOrder);
         comboboxOrder.setBounds(150, 150, 45, 25);
         comboboxOrder.setEnabled(false);
         comboboxOrder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                item = comboboxOrder.getItemAt(comboboxOrder.getSelectedIndex());
+//                item = comboboxOrder.getItemAt(comboboxOrder.getSelectedIndex());
             }
         });
 
@@ -203,16 +205,28 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 checkBoxIsUse.setEnabled(true);
                 buttonNextState.setEnabled(true);
+
                 /*fillMap();
                 count = map1.keySet().size();
                 readMap(map1);
                 textFieldTime.setText("8");*/
 
 //                updateComboBox();
-
-                for(int i = 0; i<stateTreeSet.size();i++){
-                    comboboxOrder.addItem(i);
+                stateTreeSetForConfig = UberStates.getStateTreeSet();
+                statesIterator = stateTreeSetForConfig.iterator();
+//                dataProvider = new HashMap<>();
+                for (int i = 0; i < stateTreeSetForConfig.size(); i++) {
+                    comboboxOrder.addItem(i + 1);
+//                    dataProvider.put(i, i);
                 }
+//                comboboxOrder.addItem(dataPrivider);
+
+                comboboxOrder.setEnabled(true);
+                comboboxOrder.setSelectedIndex(-1);
+                if (statesIterator.hasNext()) ;
+                tmpConfigState = statesIterator.next();
+
+                crossroadPanel.lightGreenLights(tmpConfigState);
 
 
             }
@@ -228,7 +242,37 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 nextItem();
                 if (isChecked) {
-                    time = Integer.parseInt(textFieldTime.getText());
+//                    time = Integer.parseInt(textFieldTime.getText());
+                    crossroadPanel.lightRedLights(tmpConfigState);
+                    if (statesIterator.hasNext()) {
+                        tmpConfigState = statesIterator.next();
+                    }
+                    crossroadPanel.lightGreenLights(tmpConfigState);
+
+                    if (comboboxOrder.getItemCount() == 1) {
+                        crossroadPanel.lightRedLights(tmpConfigState);
+                        buttonNextState.setEnabled(false);
+                        comboboxOrder.removeItemAt(comboboxOrder.getSelectedIndex());
+                    } else {
+                        comboboxOrder.removeItemAt(comboboxOrder.getSelectedIndex());
+                    }
+                    comboboxOrder.setSelectedIndex(-1);
+//                    if(comboboxOrder.getItemCount())
+                    System.out.println("Число итемов" + comboboxOrder.getItemCount());
+                }
+                else {
+                    crossroadPanel.lightRedLights(tmpConfigState);
+                    if (statesIterator.hasNext()) {
+                        tmpConfigState = statesIterator.next();
+                    }
+                    crossroadPanel.lightGreenLights(tmpConfigState);
+                    if (comboboxOrder.getItemCount() == 1) {
+                        crossroadPanel.lightRedLights(tmpConfigState);
+                        buttonNextState.setEnabled(false);
+                        comboboxOrder.removeItemAt(comboboxOrder.getSelectedIndex());
+                    } else {
+                        comboboxOrder.removeItemAt(comboboxOrder.getItemCount()-1);
+                    }
                 }
             }
         });
@@ -290,9 +334,9 @@ public class MainFrame extends JFrame {
         frame.setResizable(true);
         frame.getContentPane().setLayout(null);
         frame.getContentPane().add(crossroadPanel);
-        crossroadPanel.setBounds(0,0,555,555);
+        crossroadPanel.setBounds(0, 0, 555, 555);
         frame.getContentPane().add(optionPanel);
-        optionPanel.setBounds(555,0,200,555);
+        optionPanel.setBounds(555, 0, 200, 555);
         frame.setVisible(true);
     }
 
@@ -347,7 +391,7 @@ public class MainFrame extends JFrame {
 
     public void updateComboBox() {
         for (Integer i : map1.keySet()) {
-            comboboxOrder.addItem(i);
+//            comboboxOrder.addItem(i);
         }
     }
 
