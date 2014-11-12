@@ -135,7 +135,7 @@ public class MainFrame extends JFrame {
      */
     public void initComponents() {
         frame = new JFrame("Traffic Light Control System");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         optionPanel = new JPanel();
         optionPanel.setLayout(null);
@@ -452,21 +452,21 @@ public class MainFrame extends JFrame {
                             }
 
                             fistRun = false;
-                            for (int i = 0; i < nextLights.length; i++) {
-                                currentGreen.add(nextLights[i]);
+                            for (int nextLight : nextLights) {
+                                currentGreen.add(nextLight);
                             }
                         } else {
 
                             MainFrame.State tmpState = statesHashMap.get(key);
                             nextLights = tmpState.greenLights;
 
-                            for (int i = 0; i < nextLights.length; i++) {
-                                newGreen.add(nextLights[i]);
+                            for (int nextLight2 : nextLights) {
+                                newGreen.add(nextLight2);
                             }
 
-                            for (int j = 0; j < nextLights.length; j++) {
-                                if (currentGreen.contains(nextLights[j])) {
-                                    withoutOrange.add(nextLights[j]);
+                            for (int nextLight1 : nextLights) {
+                                if (currentGreen.contains(nextLight1)) {
+                                    withoutOrange.add(nextLight1);
                                 }
                             }
 
@@ -476,19 +476,19 @@ public class MainFrame extends JFrame {
                                 currentGreenmas[index++] = i;
                             }
 
-                            for (int i = 0; i < currentGreenmas.length; i++) {
-                                if (!newGreen.contains(currentGreenmas[i])) {
-                                    withOrange.add(currentGreenmas[i]);
+                            for (int currentGreenma : currentGreenmas) {
+                                if (!newGreen.contains(currentGreenma)) {
+                                    withOrange.add(currentGreenma);
                                 } else {
-                                    withoutOrange.add(currentGreenmas[i]);
+                                    withoutOrange.add(currentGreenma);
                                 }
                             }
 
-                            for (int i = 0; i < nextLights.length; i++) {
-                                if (!currentGreen.contains(nextLights[i])) {
-                                    withOrange.add(nextLights[i]);
+                            for (int nextLight : nextLights) {
+                                if (!currentGreen.contains(nextLight)) {
+                                    withOrange.add(nextLight);
                                 } else {
-                                    withoutOrange.add(nextLights[i]);
+                                    withoutOrange.add(nextLight);
                                 }
                             }
 
@@ -504,11 +504,11 @@ public class MainFrame extends JFrame {
                                 e.printStackTrace();
                             }
 
-                            for (int i = 0; i < withOrangeMas.length; i++) {
-                                if (newGreen.contains(withOrangeMas[i])) {
-                                    makeGreen.add(withOrangeMas[i]);
+                            for (int withOrangeMa : withOrangeMas) {
+                                if (newGreen.contains(withOrangeMa)) {
+                                    makeGreen.add(withOrangeMa);
                                 } else {
-                                    makeRed.add(withOrangeMas[i]);
+                                    makeRed.add(withOrangeMa);
                                 }
                             }
 
@@ -518,8 +518,8 @@ public class MainFrame extends JFrame {
                                 withoutOrangeMas[index3++] = i;
                             }
 
-                            for (int i = 0; i < withoutOrangeMas.length; i++) {
-                                makeGreen.add(withoutOrangeMas[i]);
+                            for (int withoutOrangeMa : withoutOrangeMas) {
+                                makeGreen.add(withoutOrangeMa);
                             }
 
                             int[] makeRedMas = new int[makeRed.size()];
