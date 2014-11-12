@@ -1,18 +1,15 @@
 package by.bsuir.iba.gui;
 
-import by.bsuir.iba.core.UberStates;
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.configuration.ConfigurationLoader;
+import by.bsuir.iba.core.logic.States;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -51,6 +48,8 @@ public class MainFrame extends JFrame {
     Iterator<int[]> statesIterator;// = stateTreeSet.iterator();
     HashMap<Integer, Integer> dataProvider;
     private int tmpConfigState[];
+
+    HashMap<Integer, State> statesHashMap = new HashMap<>();
 
     /**
      * Sets configs.
@@ -170,7 +169,7 @@ public class MainFrame extends JFrame {
         });
 
         // Green time in seconds
-        textFieldTime = new JTextField();
+        textFieldTime = new JTextField(10);
         optionPanel.add(textFieldTime);
         textFieldTime.setBounds(90, 150, 45, 25);
         textFieldTime.setEnabled(false);
@@ -212,7 +211,7 @@ public class MainFrame extends JFrame {
                 textFieldTime.setText("8");*/
 
 //                updateComboBox();
-                stateTreeSetForConfig = UberStates.getStateTreeSet();
+                stateTreeSetForConfig = States.getStateTreeSet();
                 statesIterator = stateTreeSetForConfig.iterator();
 //                dataProvider = new HashMap<>();
                 for (int i = 0; i < stateTreeSetForConfig.size(); i++) {
@@ -242,7 +241,11 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 nextItem();
                 if (isChecked) {
-//                    time = Integer.parseInt(textFieldTime.getText());
+                    if (textFieldTime.getText() != "") {
+                        time = Integer.parseInt(textFieldTime.getText());
+                        State state = new State(tmpConfigState, time);
+                        statesHashMap.put((Integer) comboboxOrder.getSelectedItem(), state);
+                    }
                     crossroadPanel.lightRedLights(tmpConfigState);
                     if (statesIterator.hasNext()) {
                         tmpConfigState = statesIterator.next();
@@ -259,8 +262,7 @@ public class MainFrame extends JFrame {
                     comboboxOrder.setSelectedIndex(-1);
 //                    if(comboboxOrder.getItemCount())
                     System.out.println("Число итемов" + comboboxOrder.getItemCount());
-                }
-                else {
+                } else {
                     crossroadPanel.lightRedLights(tmpConfigState);
                     if (statesIterator.hasNext()) {
                         tmpConfigState = statesIterator.next();
@@ -271,7 +273,7 @@ public class MainFrame extends JFrame {
                         buttonNextState.setEnabled(false);
                         comboboxOrder.removeItemAt(comboboxOrder.getSelectedIndex());
                     } else {
-                        comboboxOrder.removeItemAt(comboboxOrder.getItemCount()-1);
+                        comboboxOrder.removeItemAt(comboboxOrder.getItemCount() - 1);
                     }
                 }
             }
@@ -301,6 +303,7 @@ public class MainFrame extends JFrame {
         goButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Собираемя ехать!");
                 RunGarland garland = new RunGarland();
                 garland.start();
             }
@@ -441,38 +444,230 @@ public class MainFrame extends JFrame {
         private final Object monitor = new Object();
 
         @Override
+//        public void run() {
+//            synchronized (monitor) {
+//                int[] lastLights = {};
+//                int yellowCount = 0;
+//                int yellowIndex = 0;
+//                int[] lightYellow;
+//
+//                TreeSet<Integer> yellowLights = new TreeSet<>();
+//
+//
+//                for (int key : statesHashMap.keySet()) {
+//                    MainFrame.State tmpState = statesHashMap.get(key);
+//
+//                    if (lastLights.length != 0) {
+//                        crossroadPanel.lightRedLights(lastLights);
+//                        lastLights = tmpState.greenLihgts;
+//                        for (int y = 0; y < lastLights.length; y++) {
+//                            if (!yellowLights.contains(lastLights[y])) {
+//                                yellowCount++;
+//                            }
+//                        }
+//
+//                        lightYellow = new int[yellowCount];
+//
+//                        for (int y = 0; y < lastLights.length; y++) {
+//                            if (!yellowLights.contains(lastLights[y])) {
+//                                lightYellow[yellowIndex] = lastLights[y];
+//                            }
+//                        }
+//
+//
+//                        crossroadPanel.lightYellowLights(lightYellow);
+//                        try {
+//                            monitor.wait(2000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//
+//
+//                    if (lastLights.length == 0) {
+//                        lastLights = tmpState.greenLihgts;
+//                    }
+//                    crossroadPanel.lightGreenLights(lastLights);
+//                    yellowLights.clear();
+//                    yellowCount = 0;
+//                    for (int j = 0; j < lastLights.length; j++) {
+//                        yellowLights.add(lastLights[j]);
+//                    }
+//
+//                    try {
+//                        monitor.wait(tmpState.greenDelay * 1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//        }
         public void run() {
+            boolean fistRun = true;
             synchronized (monitor) {
-                Set<int[]> stateTreeSet = UberStates.getStateTreeSet();
-                Iterator<int[]> iterator = stateTreeSet.iterator();
-                int[] lastLights = {};
-                while (iterator.hasNext()) {
+                int[] nextLights = {};
+                int yellowCount = 0;
+                int yellowIndex = 0;
+                int[] lightYellow;
 
-                    int[] tmp = iterator.next();
-                    if (lastLights.length != 0) {
-                        //      crossroadPanel.lightYellowLights(lastLights, tmp);
-                    /*try {
-                        wait(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }*/
-                    }
+                TreeSet<Integer> yellowLights = new TreeSet<>();
+                TreeSet<Integer> currentGreen = new TreeSet<>();
+                TreeSet<Integer> newGreen = new TreeSet<>();
+                TreeSet<Integer> withoutOrange = new TreeSet<>();
+                TreeSet<Integer> withOrange = new TreeSet<>();
+                TreeSet<Integer> makeGreen = new TreeSet<>();
+                TreeSet<Integer> makeRed = new TreeSet<>();
 
-                    lastLights = new int[tmp.length];
-                    for (int i = 0; i < tmp.length; i++) {
-                        lastLights[i] = tmp[i];
-                    }
+                while (true) {
+                    for (int key : statesHashMap.keySet()) {
+                        if (fistRun) {
+                            MainFrame.State tmpState = statesHashMap.get(key);
+                            nextLights = tmpState.greenLihgts;
 
-                    crossroadPanel.lightGreenLights(tmp);
-                    try {
-                        monitor.wait(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+
+                            crossroadPanel.lightYellowLights(nextLights);
+                            try {
+                                monitor.wait(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            crossroadPanel.lightGreenLights(nextLights);
+                            try {
+                                monitor.wait(tmpState.greenDelay * 1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            fistRun = false;
+                            for (int i = 0; i < nextLights.length; i++) {
+                                currentGreen.add(nextLights[i]);
+                            }
+                        } else {
+
+                            MainFrame.State tmpState = statesHashMap.get(key);
+                            nextLights = tmpState.greenLihgts;
+
+                            for (int i = 0; i < nextLights.length; i++) {
+                                newGreen.add(nextLights[i]);
+                            }
+
+                            for (int j = 0; j < nextLights.length; j++) {
+                                if (currentGreen.contains(nextLights[j])) {
+                                    withoutOrange.add(nextLights[j]);
+                                }
+                            }
+
+
+                            int[] currentGreenmas = new int[currentGreen.size()];
+                            int index = 0;
+                            for (Integer i : currentGreen) {
+                                currentGreenmas[index++] = i;
+                            }
+
+                            for (int i = 0; i < currentGreenmas.length; i++) {
+                                if (!newGreen.contains(currentGreenmas[i])) {
+                                    withOrange.add(currentGreenmas[i]);
+                                } else {
+                                    withoutOrange.add(currentGreenmas[i]);
+                                }
+                            }
+
+                            for (int i = 0; i < nextLights.length; i++) {
+                                if (!currentGreen.contains(nextLights[i])) {
+                                    withOrange.add(nextLights[i]);
+                                } else {
+                                    withoutOrange.add(nextLights[i]);
+                                }
+                            }
+
+                            int[] withOrangeMas = new int[withOrange.size()];
+                            int index2 = 0;
+                            for (Integer i : withOrange) {
+                                withOrangeMas[index2++] = i;
+                            }
+                            crossroadPanel.lightYellowLights(withOrangeMas);
+                            try {
+                                monitor.wait(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            for (int i = 0; i < withOrangeMas.length; i++) {
+                                if (newGreen.contains(withOrangeMas[i])) {
+                                    makeGreen.add(withOrangeMas[i]);
+                                } else {
+                                    makeRed.add(withOrangeMas[i]);
+                                }
+                            }
+
+                            int[] withoutOrangeMas = new int[withoutOrange.size()];
+                            int index3 = 0;
+                            for (Integer i : withoutOrange) {
+                                withoutOrangeMas[index3++] = i;
+                            }
+
+                            for (int i = 0; i < withoutOrangeMas.length; i++) {
+                                makeGreen.add(withoutOrangeMas[i]);
+                            }
+
+
+                            int[] makeRedMas = new int[makeRed.size()];
+                            int index4 = 0;
+                            for (Integer i : makeRed) {
+                                makeRedMas[index4++] = i;
+                            }
+
+                            crossroadPanel.lightRedLights(makeRedMas);
+
+                            int[] makeGreenMas = new int[makeGreen.size()];
+                            int index5 = 0;
+                            for (Integer i : makeGreen) {
+                                makeGreenMas[index5++] = i;
+                            }
+
+
+                            crossroadPanel.lightGreenLights(makeGreenMas);
+
+                            currentGreen.clear();
+                            withOrange.clear();
+                            withoutOrange.clear();
+                            newGreen.clear();
+                            makeGreen.clear();
+                            makeRed.clear();
+                            for (int i = 0; i < makeGreenMas.length; i++) {
+                                currentGreen.add(nextLights[i]);
+                            }
+
+                            try {
+                                monitor.wait(tmpState.greenDelay * 1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+
+
                     }
-                    crossroadPanel.lightRedLights(lastLights);
-//                        wait(5000);
                 }
             }
         }
+
+
+    }
+
+    private class State {
+        public State(int[] _greenLights, int _greenDelay) {
+            greenLihgts = _greenLights;
+            greenDelay = _greenDelay;
+        }
+
+        int[] greenLihgts;
+        int greenDelay;
     }
 }
