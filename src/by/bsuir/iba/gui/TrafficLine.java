@@ -15,7 +15,7 @@ public class TrafficLine extends RoadLine {
      * {@code private static final int TIMETOGO}
      * Time in seconds to cross crosstoad for one car
      */
-    private static final int TIMETOGO = 1000;
+    private static final int TIMETOGO = 500;
     boolean hasTrafficLight;
     int lineId, x, y;
     volatile int numQueueCar;

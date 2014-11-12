@@ -398,7 +398,7 @@ public class MainFrame extends JFrame {
 //                    arrayGreen = tmp;
                     crossroadPanel.lightGreenLights(tmp);
                     try {
-                        monitor.wait(5000);
+                        monitor.wait(3500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
