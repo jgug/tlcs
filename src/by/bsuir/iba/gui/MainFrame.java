@@ -3,6 +3,7 @@ package by.bsuir.iba.gui;
 import by.bsuir.iba.core.UberStates;
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.configuration.ConfigurationLoader;
+import by.bsuir.iba.core.enumerations.TrafficSchedules;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +41,7 @@ public class MainFrame extends JFrame {
     protected JTextField textFieldTime;
     protected JCheckBox checkBoxIsUse;
     protected JComboBox<Integer> comboboxOrder;
+    protected JComboBox<TrafficSchedules> comboboxTrafficSchedule;
     Set<int[]> stateTreeSetForConfig;// = UberStates.getStateTreeSet();
     Iterator<int[]> iterator;// = stateTreeSet.iterator();
     private boolean isChecked;
@@ -51,6 +53,7 @@ public class MainFrame extends JFrame {
     private int[] arrayGreen;
     private Map<Integer, String> map1 = new HashMap<>();
     private Map<Integer, String> map2 = new HashMap<>();
+    private int timeDalay = 4;
 
     /**
      * Sets configs.
@@ -132,6 +135,7 @@ public class MainFrame extends JFrame {
 //        frame.add(BorderLayout.WEST, crossroadPanel);
         optionPanel = new JPanel();
         optionPanel.setLayout(null);
+
         // Get config file
         buttonGetConfigFile = new JButton("Get config");
         optionPanel.add(buttonGetConfigFile);
@@ -291,7 +295,31 @@ public class MainFrame extends JFrame {
         });
 
         // Choose traffic scheduling
-
+        comboboxTrafficSchedule = new JComboBox<>();
+        optionPanel.add(comboboxTrafficSchedule);
+        comboboxTrafficSchedule.setBounds(50, 320, 150, 25);
+        for (TrafficSchedules trs : TrafficSchedules.values()) {
+            comboboxTrafficSchedule.addItem(trs);
+        }
+        comboboxTrafficSchedule.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (comboboxTrafficSchedule.getItemAt(comboboxTrafficSchedule.getSelectedIndex())) {
+                    case BASIC: {
+                        timeDalay = 4;
+                    }
+                    break;
+                    case JAM: {
+                        timeDalay = 2;
+                    }
+                    break;
+                    case NIGHT: {
+                        timeDalay = 6;
+                    }
+                    break;
+                }
+            }
+        });
 
         frame.setSize(800, 585);
         frame.setResizable(true);
@@ -343,9 +371,10 @@ public class MainFrame extends JFrame {
                     }
                 }
             }
-        }, 0, 4, TimeUnit.SECONDS);
+        }, 0, timeDalay, TimeUnit.SECONDS);
         buttonTransportStart.setEnabled(false);
         buttonTransportStop.setEnabled(true);
+        comboboxTrafficSchedule.setEnabled(false);
     }
 
     /**
@@ -355,6 +384,7 @@ public class MainFrame extends JFrame {
         executor.shutdown();
         buttonTransportStart.setEnabled(true);
         buttonTransportStop.setEnabled(false);
+        comboboxTrafficSchedule.setEnabled(true);
     }
 
 //=====================================================================================================================
