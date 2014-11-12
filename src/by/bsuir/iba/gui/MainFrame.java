@@ -1,9 +1,9 @@
 package by.bsuir.iba.gui;
 
-import by.bsuir.iba.core.UberStates;
 import by.bsuir.iba.core.configuration.Configuration;
 import by.bsuir.iba.core.configuration.ConfigurationLoader;
 import by.bsuir.iba.core.enumerations.TrafficSchedules;
+import by.bsuir.iba.core.logic.States;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Ruslan on 07.11.14.
+ * @author Ruslan Ardytski
+ * @author Paver Vashkel
  */
 public class MainFrame extends JFrame {
     final ConfigurationLoader configurationLoader = new ConfigurationLoader();
@@ -42,18 +43,11 @@ public class MainFrame extends JFrame {
     protected JCheckBox checkBoxIsUse;
     protected JComboBox<Integer> comboboxOrder;
     protected JComboBox<TrafficSchedules> comboboxTrafficSchedule;
-    Set<int[]> stateTreeSetForConfig;// = UberStates.getStateTreeSet();
+    Set<int[]> stateTreeSetForConfig;// = States.getStateTreeSet();
     Iterator<int[]> iterator;// = stateTreeSet.iterator();
-    private boolean isChecked;
-    private int item;
-    private int time;
-    private int count;
-    private int globalIndex = 0;
-    private boolean isGreen = false;
-    private int[] arrayGreen;
     private Map<Integer, String> map1 = new HashMap<>();
     private Map<Integer, String> map2 = new HashMap<>();
-    private int timeDalay = 4;
+    private int timeDelay = 4;
 
     /**
      * Sets configs.
@@ -76,34 +70,40 @@ public class MainFrame extends JFrame {
             lineIndex = i * 10;
             if (conf.getLeftTurns()[i - 1] != 0) {
                 lineIndex++;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, true);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             } else {
                 lineIndex++;
                 isBrick = true;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, isBrick, false);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
 
             if (conf.getStraight()[i - 1] != 0) {
                 lineIndex++;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, true);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             } else {
                 lineIndex++;
                 isBrick = true;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, isBrick, false);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
 
             if (conf.getRightTurns()[i - 1] != 0) {
                 lineIndex++;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, true);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, true);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             } else {
                 lineIndex++;
                 isBrick = true;
-                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                        startPoints.get(lineIndex).y, isBrick, false);
                 crossroadPanel.addTrafficLine(tmpRightLine);
             }
 
@@ -111,14 +111,16 @@ public class MainFrame extends JFrame {
                 for (int outLines = 1; outLines <= 3; outLines++) {
                     lineIndex++;
                     isBrick = (conf.getOutputLines()[i - 1] >= outLines) ? false : true;
-                    TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                    TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                            startPoints.get(lineIndex).y, isBrick, false);
                     crossroadPanel.addTrafficLine(tmpRightLine);
                 }
             } else {
                 for (int outLines = 1; outLines <= 3; outLines++) {
                     lineIndex++;
                     isBrick = true;
-                    TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x, startPoints.get(lineIndex).y, isBrick, false);
+                    TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
+                            startPoints.get(lineIndex).y, isBrick, false);
                     crossroadPanel.addTrafficLine(tmpRightLine);
                 }
             }
@@ -130,7 +132,7 @@ public class MainFrame extends JFrame {
      */
     public void initComponents() {
         frame = new JFrame("Traffic Line Control System");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 //        frame.add(BorderLayout.WEST, crossroadPanel);
         optionPanel = new JPanel();
@@ -166,12 +168,7 @@ public class MainFrame extends JFrame {
         optionPanel.add(comboboxOrder);
         comboboxOrder.setBounds(150, 150, 45, 25);
         comboboxOrder.setEnabled(false);
-        comboboxOrder.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                item = comboboxOrder.getItemAt(comboboxOrder.getSelectedIndex());
-            }
-        });
+
 
         // Green time in seconds
         textFieldTime = new JTextField();
@@ -184,21 +181,6 @@ public class MainFrame extends JFrame {
         optionPanel.add(checkBoxIsUse);
         checkBoxIsUse.setBounds(50, 150, 25, 25);
         checkBoxIsUse.setEnabled(false);
-        checkBoxIsUse.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (checkBoxIsUse.isSelected()) {
-                    textFieldTime.setEnabled(true);
-                    comboboxOrder.setEnabled(true);
-                    isChecked = true;
-                } else {
-                    textFieldTime.setEnabled(false);
-                    comboboxOrder.setEnabled(false);
-                    isChecked = false;
-                }
-
-            }
-        });
 
         // Configurate crossroad
         buttonConfigurate = new JButton("Configurate");
@@ -229,33 +211,11 @@ public class MainFrame extends JFrame {
         optionPanel.add(buttonNextState);
         buttonNextState.setBounds(50, 185, 150, 25);
         buttonNextState.setEnabled(false);
-        buttonNextState.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nextItem();
-                if (isChecked) {
-                    time = Integer.parseInt(textFieldTime.getText());
-                }
-            }
-        });
 
         // Light green
         buttonLightGreen = new JButton("Light green");
         optionPanel.add(buttonLightGreen);
         buttonLightGreen.setBounds(50, 240, 150, 25);
-        buttonLightGreen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                crossroadPanel.trafficLineHashMap.get(11).lightGreen();
-                frame.repaint();
-                System.out.println();
-                System.out.println("MAP1");
-                readMap(map1);
-                System.out.println();
-                System.out.println("MAP2");
-                readMap(map2);
-            }
-        });
 
         goButton = new JButton("Поехали!");
         optionPanel.add(goButton);
@@ -306,15 +266,15 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (comboboxTrafficSchedule.getItemAt(comboboxTrafficSchedule.getSelectedIndex())) {
                     case BASIC: {
-                        timeDalay = 4;
+                        timeDelay = 4;
                     }
                     break;
                     case JAM: {
-                        timeDalay = 2;
+                        timeDelay = 2;
                     }
                     break;
                     case NIGHT: {
-                        timeDalay = 6;
+                        timeDelay = 6;
                     }
                     break;
                 }
@@ -325,16 +285,19 @@ public class MainFrame extends JFrame {
         frame.setResizable(true);
         frame.getContentPane().setLayout(null);
         frame.getContentPane().add(crossroadPanel);
-        crossroadPanel.setBounds(0,0,555,555);
+        crossroadPanel.setBounds(0, 0, 555, 555);
         frame.getContentPane().add(optionPanel);
-        optionPanel.setBounds(555,0,200,555);
+        optionPanel.setBounds(555, 0, 200, 555);
         frame.setVisible(true);
     }
 
     private void setPoints() {
-        int[] coordinateX = {163, 203, 243, 283, 323, 363, 405, 405, 405, 405, 405, 405, 363, 320, 280, 240, 200, 160, 120, 120, 120, 120, 120, 120};
-        int[] coordinateY = {115, 115, 115, 115, 115, 115, 163, 203, 243, 283, 323, 363, 410, 410, 410, 410, 410, 410, 363, 320, 280, 240, 200, 160};
-        int[] coordinateId = {33, 32, 31, 34, 35, 36, 23, 22, 21, 24, 25, 26, 13, 12, 11, 14, 15, 16, 43, 42, 41, 44, 45, 46};
+        int[] coordinateX = {163, 203, 243, 283, 323, 363, 405, 405, 405, 405, 405, 405, 363, 320, 280, 240, 200,
+                160, 120, 120, 120, 120, 120, 120};
+        int[] coordinateY = {115, 115, 115, 115, 115, 115, 163, 203, 243, 283, 323, 363, 410, 410, 410, 410, 410,
+                410, 363, 320, 280, 240, 200, 160};
+        int[] coordinateId = {33, 32, 31, 34, 35, 36, 23, 22, 21, 24, 25, 26, 13, 12, 11, 14, 15, 16, 43, 42, 41, 44,
+                45, 46};
         for (int i = 0; i < coordinateX.length; i++) {
             Coordinates tmpCoordinate = new Coordinates(coordinateX[i], coordinateY[i]);
             startPoints.put(coordinateId[i], tmpCoordinate);
@@ -371,7 +334,7 @@ public class MainFrame extends JFrame {
                     }
                 }
             }
-        }, 0, timeDalay, TimeUnit.SECONDS);
+        }, 0, timeDelay, TimeUnit.SECONDS);
         buttonTransportStart.setEnabled(false);
         buttonTransportStop.setEnabled(true);
         comboboxTrafficSchedule.setEnabled(false);
@@ -386,45 +349,6 @@ public class MainFrame extends JFrame {
         buttonTransportStop.setEnabled(false);
         comboboxTrafficSchedule.setEnabled(true);
     }
-
-//=====================================================================================================================
-
-    public void fillMap() {
-        map1.put(0, "one");
-        map1.put(1, "two");
-        map1.put(2, "three");
-        map1.put(3, "four");
-        map1.put(4, "five");
-    }
-
-    public void updateComboBox() {
-        for (Integer i : map1.keySet()) {
-            comboboxOrder.addItem(i);
-        }
-    }
-
-    public void nextItem() {
-        System.out.println("LALAL = " + map1.keySet().size());
-        if (globalIndex < map1.keySet().size()) {
-            if (isChecked) {
-                map2.put(item, map1.get(globalIndex));
-            }
-            map1.remove(globalIndex);
-            globalIndex++;
-            System.out.println("GLOBAL INDEX = " + globalIndex);
-        } else {
-            System.out.println("зэтс инаф");
-        }
-        updateComboBox();
-    }
-
-    public void readMap(Map<Integer, String> map) {
-        for (Integer i : map.keySet()) {
-            System.out.println(map.get(i));
-        }
-    }
-
-//=====================================================================================================================
 
     /**
      * The type Coordinates.
@@ -451,7 +375,7 @@ public class MainFrame extends JFrame {
         @Override
         public void run() {
             synchronized (monitor) {
-                Set<int[]> stateTreeSet = UberStates.getStateTreeSet();
+                Set<int[]> stateTreeSet = States.getStateTreeSet();
                 Iterator<int[]> iterator = stateTreeSet.iterator();
                 int[] lastLights = {};
                 while (iterator.hasNext()) {

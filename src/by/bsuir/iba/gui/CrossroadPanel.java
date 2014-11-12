@@ -8,7 +8,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Ruslan
+ * Class draw single crossroad according to configuration file.
+ * {@code HashMap<Integer, TrafficLine> trafficLineHashMap} stores traffic lines and ids
+ *
+ * @author Ruslan Ardytski
+ * @see java.util.HashMap
+ * @see java.util.concurrent.ScheduledExecutorService
  */
 public class CrossroadPanel extends JPanel {
     HashMap<Integer, TrafficLine> trafficLineHashMap = new HashMap<>();
@@ -99,13 +104,15 @@ public class CrossroadPanel extends JPanel {
      * Add traffic line.
      *
      * @param t the t
+     * @see by.bsuir.iba.gui.TrafficLine
      */
     public void addTrafficLine(TrafficLine t) {
         trafficLineHashMap.put(t.lineId, t);
     }
 
     /**
-     * Decrement lines.
+     * {@code public synchronized void decrementLines(int[] arr)} decrement number of cars in a line
+     * when green light is turned on.
      *
      * @param arr the arr
      */
@@ -129,11 +136,11 @@ public class CrossroadPanel extends JPanel {
      *
      * @param lights the lights
      */
-    public synchronized void lightGreenLights(int[] lights){
+    public synchronized void lightGreenLights(int[] lights) {
         temparr = lights;
         Decrementer dec = new Decrementer();
         dec.start();
-        for (int i = 0; i<lights.length; i++) {
+        for (int i = 0; i < lights.length; i++) {
             TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
             tmpLine.lightGreen();
         }
@@ -146,12 +153,12 @@ public class CrossroadPanel extends JPanel {
      * @param lights  the lights
      * @param lights2 the lights 2
      */
-    public synchronized void lightYellowLights(int[] lights, int[] lights2){
-        for (int i = 0; i<lights.length; i++) {
+    public synchronized void lightYellowLights(int[] lights, int[] lights2) {
+        for (int i = 0; i < lights.length; i++) {
             TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
             tmpLine.lightYellow();
         }
-        for (int i = 0; i<lights2.length; i++) {
+        for (int i = 0; i < lights2.length; i++) {
             TrafficLine tmpLine = trafficLineHashMap.get(lights2[i]);
             tmpLine.lightYellow();
         }
@@ -163,9 +170,9 @@ public class CrossroadPanel extends JPanel {
      *
      * @param lights the lights
      */
-    public synchronized void lightRedLights(int[] lights){
+    public synchronized void lightRedLights(int[] lights) {
         executor.shutdown();
-        for (int i = 0; i<lights.length; i++) {
+        for (int i = 0; i < lights.length; i++) {
             TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
             tmpLine.lightRed();
         }
@@ -173,7 +180,8 @@ public class CrossroadPanel extends JPanel {
     }
 
     /**
-     * The type Decrementer.
+     * The type Decrementer. Run in a new thread decrementing number of cars in a line
+     * when green light is on
      */
     class Decrementer extends Thread {
         @Override

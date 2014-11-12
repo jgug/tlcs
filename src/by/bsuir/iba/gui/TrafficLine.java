@@ -6,7 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Ruslan
+ * @author Ruslan Ardytski
+ * @author Pavel Vashkel
  */
 public class TrafficLine extends RoadLine {
 

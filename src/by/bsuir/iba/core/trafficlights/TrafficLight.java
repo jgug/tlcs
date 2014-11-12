@@ -1,7 +1,6 @@
 package by.bsuir.iba.core.trafficlights;
 
-import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight
-        .AbstractFactoryTL;
+import by.bsuir.iba.core.trafficlights.abstractFactoryTrafficLight.AbstractFactoryTL;
 import by.bsuir.iba.core.trafficlights.abstractTraffiLight.AbstractTL;
 
 /**

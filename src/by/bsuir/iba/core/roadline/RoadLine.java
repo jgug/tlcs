@@ -13,6 +13,7 @@ package by.bsuir.iba.core.roadline;
  * number generating
  *
  * @author Pavel Vashkel
+ * @author Ruslan Ardytski
  */
 public class RoadLine {
     private static final int MIN = 0;
@@ -74,11 +75,10 @@ public class RoadLine {
     }
 
     /**
-     *
      * @return random number(0..3) coming cars
      */
     public int generateRandomNumOfCars() {
-        return  (int) (Math.random() * 4);
+        return (int) (Math.random() * 4);
     }
 
     /**

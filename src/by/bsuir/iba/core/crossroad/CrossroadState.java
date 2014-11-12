@@ -9,6 +9,7 @@ import java.util.*;
  * matrix from a configuration file
  *
  * @author Pavel Vashkel
+ * @author Ruslan Ardytski
  * @see java.util.ArrayList
  * @see java.util.Collections
  */
@@ -54,13 +55,6 @@ public class CrossroadState {
      * @param arr the arr
      */
     public void setStateMap(int[][] arr) {
-//        System.out.println("Array is");
-//        for (int i = 0; i < arr.length; i++) {
-//            for (int j = 0; j < arr.length; j++) {
-//                System.out.print(arr[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
 
         Configuration configuration = Configuration.getInstance();
         int count = configuration.getRoads() + configuration.getPedestrianCount();
@@ -74,10 +68,7 @@ public class CrossroadState {
         int counter = 0;
         for (int i = 1; i <= count; i++) {
             int second = 1;
-//            System.out.println();
-//            System.out.println("i=" + i);
             for (int k = 1; k <= right[i - 1]; k++) {
-//                System.out.println("k=" + k);
                 indexes[counter] = getIndex(i, second);
                 second++;
                 counter++;
@@ -101,11 +92,6 @@ public class CrossroadState {
             }
         }
 
-//        System.out.println("INDEXES ARRAY");
-//        for (int i = 0; i < indexes.length; i++) {
-//            System.out.println(indexes[i]);
-//        }
-
         for (int i = 0; i < all; i++) {
             treeTempMap.put(i, arr[i]);
         }
@@ -113,26 +99,6 @@ public class CrossroadState {
         for (int i = 0; i < all; i++) {
             stateMap.put(indexes[i], treeTempMap.get(i));
         }
-
-        System.out.println("TreeHash map is:");
-        for (Integer j : treeTempMap.keySet()) {
-            for (int l : treeTempMap.get(j)) {
-                System.out.print(l + " ");
-            }
-            System.out.println(" ");
-        }
-        System.out.println(" ");
-
-        System.out.println("State map is:");
-        for (Integer j : stateMap.keySet()) {
-            System.out.print("KEY=" + j + " ");
-            for (int l : stateMap.get(j)) {
-                System.out.print(l + " ");
-            }
-            System.out.println(" ");
-        }
-        System.out.println(" ");
-
     }
 
     /**
