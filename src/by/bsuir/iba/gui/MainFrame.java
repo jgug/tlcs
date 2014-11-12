@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
             if (conf.getOutputLines()[i - 1] != 0) {
                 for (int outLines = 1; outLines <= 3; outLines++) {
                     lineIndex++;
-                    isBrick = (conf.getOutputLines()[i - 1] >= outLines) ? false : true;
+                    isBrick = (conf.getOutputLines()[i - 1] < outLines);
                     TrafficLine tmpRightLine = new TrafficLine(lineIndex, startPoints.get(lineIndex).x,
                             startPoints.get(lineIndex).y, isBrick, false);
                     crossroadPanel.addTrafficLine(tmpRightLine);
@@ -398,7 +398,7 @@ public class MainFrame extends JFrame {
 //                    arrayGreen = tmp;
                     crossroadPanel.lightGreenLights(tmp);
                     try {
-                        monitor.wait(10000);
+                        monitor.wait(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
