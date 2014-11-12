@@ -47,6 +47,8 @@ public class MainFrame extends JFrame {
     private int globalIndex = 0;
     private Map<Integer, String> map1 = new HashMap<>();
     private Map<Integer, String> map2 = new HashMap<>();
+    Set<int[]> stateTreeSetForConfig;// = UberStates.getStateTreeSet();
+    Iterator<int[]> iterator;// = stateTreeSet.iterator();
 
     /**
      * Sets configs.
@@ -188,6 +190,7 @@ public class MainFrame extends JFrame {
                     comboboxOrder.setEnabled(false);
                     isChecked = false;
                 }
+
             }
         });
 
@@ -200,12 +203,18 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 checkBoxIsUse.setEnabled(true);
                 buttonNextState.setEnabled(true);
-                fillMap();
+                /*fillMap();
                 count = map1.keySet().size();
                 readMap(map1);
-                textFieldTime.setText("8");
+                textFieldTime.setText("8");*/
 
-                updateComboBox();
+//                updateComboBox();
+
+                for(int i = 0; i<stateTreeSet.size();i++){
+                    comboboxOrder.addItem(i);
+                }
+
+
             }
         });
 
@@ -396,7 +405,6 @@ public class MainFrame extends JFrame {
                 while (iterator.hasNext()) {
 
                     int[] tmp = iterator.next();
-                    System.out.println(lastLights.length + " Длина");
                     if (lastLights.length != 0) {
                         //      crossroadPanel.lightYellowLights(lastLights, tmp);
                     /*try {
