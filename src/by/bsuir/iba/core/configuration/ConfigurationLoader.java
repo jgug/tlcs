@@ -68,7 +68,7 @@ public class ConfigurationLoader {
     }
 
     /**
-     * Method convert String into array of ints by splitint with comma(",")
+     * Method convert String into array of ints by splitting with comma(",")
      *
      * @param str is a String which should be converted to array of ints
      * @return array of ints
@@ -101,7 +101,6 @@ public class ConfigurationLoader {
         }
         return arrInt;
     }
-
 
     /**
      * Get configuration.

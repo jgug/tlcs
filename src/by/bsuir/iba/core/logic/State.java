@@ -1,7 +1,12 @@
-package by.bsuir.iba.core;
+package by.bsuir.iba.core.logic;
 
 /**
- * Created by Pavel on 11.11.14.
+ * Class represents single state of a crossroad
+ * <p/>
+ * {@code time} is a time of green light for state
+ * {@code state} is an array of ints storing ids
+ *
+ * @author Pavel Vashkel
  */
 public class State {
     private int time;

@@ -74,9 +74,13 @@ public class CrossroadPanel extends JPanel {
         this.repaint();
     }
 
-    public synchronized void lightYellowLights(int[] lights){
+    public synchronized void lightYellowLights(int[] lights, int[] lights2){
         for (int i = 0; i<lights.length; i++) {
             TrafficLine tmpLine = trafficLineHashMap.get(lights[i]);
+            tmpLine.lightYellow();
+        }
+        for (int i = 0; i<lights2.length; i++) {
+            TrafficLine tmpLine = trafficLineHashMap.get(lights2[i]);
             tmpLine.lightYellow();
         }
         this.repaint();
